@@ -32,7 +32,7 @@ export default function SignupPage() {
                         type='password'
                     />
 
-                    <Button style={{backgroundColor:"#5544D4", color:"#ffffff"}} fluid size='large'>
+                    <Button color="violet" style={{ color:"#ffffff"}} fluid size='large'>
                         Sign up
                     </Button>
                     </Segment>
