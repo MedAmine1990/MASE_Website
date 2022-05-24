@@ -15,10 +15,9 @@ export default function SignupPage() {
                 
                 <Form size='large'>
                     <Segment stacked>
-                    <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' />
-                    <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' />
+                    <Form.Input icon='mail' iconPosition='left' placeholder='E-mail address' />
+                    <Form.Input  icon='user' iconPosition='left' placeholder='Username' />
                     <Form.Input
-                        fluid
                         icon='lock'
                         iconPosition='left'
                         placeholder='Password'
@@ -26,14 +25,14 @@ export default function SignupPage() {
                     />
 
                      <Form.Input
-                        fluid
-                        icon='lock'
+                        
+                        icon='checkmark'
                         iconPosition='left'
                         placeholder='Confirm password'
                         type='password'
                     />
 
-                    <Button color="violet" style={{ color:"#ffffff"}} fluid size='large'>
+                    <Button color="violet" style={{ color:"#ffffff"}}  size='large'>
                         Sign up
                     </Button>
                     </Segment>
