@@ -23,8 +23,8 @@ export default function ModalComponent(props) {
     message: "test message"
   })
   const { open, dimmer, message, title } = state
-  console.log(props.open)
-  console.log(props.dimmer)
+  //console.log(props.open)
+  //console.log(props.dimmer)
   return (
     <div>
 
