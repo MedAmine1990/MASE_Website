@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment, Modal } from 'semantic-ui-react'
+import exampleReducer from "./ModalReducer.js";
 
-function exampleReducer(state, action) {
+/*function exampleReducer(state, action) {
   switch (action.type) {
     case 'OPEN_MODAL':
       console.log('CLOSE_MODAL')
@@ -12,7 +13,7 @@ function exampleReducer(state, action) {
     default:
       throw new Error()
   }
-}
+}*/
 
 export default function ModalComponent(props) {
   

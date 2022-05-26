@@ -10,24 +10,60 @@ function controlFields(values)
 {
     for(let i=0; i<values.length; i++)
     {
-        if(values[i]=='') return false
+        if(values[i]=='') return {
+                result: false,
+                message:'One of the fields is missing for your signup !'
+            }
             /*dispatch({ type: 'OPEN_MODAL', dimmer: 'blurring' })*/
     }
-    return true
-    
+    var emailSplits=values[0].split('@')
+    if (emailSplits.length!=2)
+    {
+        return {
+            result: false,
+            message:'The email you set does not have an email format.'
+        }
+    }
+    else
+    {
+        if(!emailSplits[1].includes('.'))
+        {
+            return {
+                result: false,
+                message:'The email you set does not have an email format.'
+            }
+        }
+        else
+        {
+            console.log(emailSplits[1].split('.').length);
+            if(emailSplits[1].split('.')[1].length==0)
+            {
+                return {
+                    result: false,
+                    message:'The email you set does not have an email format.'
+                }
+            }
+        }
+    }
+    return {
+        result:true,
+        message:''
+    }  
 }
 
 export default function SignupPage() {
     const containerStyle={color:"#6567a5"}
     const [state, dispatch] = React.useReducer(exampleReducer, {
     open: false,
-    dimmer: undefined
+    dimmer: undefined,
+    message:'',
+    title:''
   })
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [passConfirm, setPassConfirm] = useState('')
-  const { open, dimmer} = state
+  const { open, dimmer, message, title} = state
   //console.log(open)
   //console.log(dimmer)
     return (
@@ -35,8 +71,8 @@ export default function SignupPage() {
             <ModalComponent  
                 dimmer={dimmer}
                 open={open}
-                message='Some error'
-                title='Some title'>
+                message={message}
+                title={title}>
             </ModalComponent>
             <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
                 <Grid.Column style={{ maxWidth: 450 }}>
@@ -65,7 +101,19 @@ export default function SignupPage() {
                     />
 
                     <Button color="violet" style={{ color:"#ffffff"}}  size='large'
-                    onClick={() => {if (!controlFields([email,username,password,passConfirm])) dispatch({ type: 'OPEN_MODAL', dimmer: 'blurring' }) /*console.log('aa')*/} }
+                    onClick={() => 
+                                {
+                                    if (!controlFields([email,username,password,passConfirm]).result) 
+                                    {
+                                        dispatch({ 
+                                                    type: 'OPEN_MODAL',
+                                                    dimmer: 'blurring', 
+                                                    message:controlFields([email,username,password,passConfirm]).message,
+                                                    title:'Signup error'
+                                                })
+                                    } 
+                                } 
+                            }
                     >
                         Sign up
                     </Button>
