@@ -8,6 +8,7 @@ import exampleReducer from "./ModalReducer.js";
 
 function controlFields(values)
 {
+    //#region test empty fields
     for(let i=0; i<values.length; i++)
     {
         if(values[i]=='') return {
@@ -16,6 +17,8 @@ function controlFields(values)
             }
             /*dispatch({ type: 'OPEN_MODAL', dimmer: 'blurring' })*/
     }
+    //#endregion
+    //#region test email format
     var emailSplits=values[0].split('@')
     if (emailSplits.length!=2)
     {
@@ -45,6 +48,26 @@ function controlFields(values)
             }
         }
     }
+    //#endregion 
+    //#region test password format
+    var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\?\$%\^&\*])(?=.{8,})");
+    if(!strongRegex.test(values[2]))
+    {
+         return {
+            result: false,
+            message:'The password is not strong enough. You must use at least: a lowercase,an uppercase, and a symbol. The password length must be 8 characters minimum.'
+        }
+    }
+    //endregion
+    //#region test the password is matching
+    if(values[2]!=values[3])
+    {
+        return {
+            result: false,
+            message:'Your confirmation does not match the original password.'
+        }
+    }
+    //#endregion
     return {
         result:true,
         message:''
