@@ -1,13 +1,22 @@
 import React from 'react';
 import {render} from "react-dom";
-import { Link, BrowserRouter as Router } from "react-router-dom";
-//import Init from "./Init.js";
+import { Link, BrowserRouter as Router,Switch,Route } from "react-router-dom";
+import Init from "./Init.js";
 import SignupPage from "./signupPage.js";
 
 
 export const App = (props) => {
     //return <Init name="initPage"></Init>
-    return <SignupPage ></SignupPage> 
+    return (
+    <Router>
+        <Switch>
+            <Route>
+                <Init path="/"/>
+                <SignupPage path="/Signup"/>
+            </Route>         
+        </Switch>
+    </Router>
+    ) 
  }
   
  
