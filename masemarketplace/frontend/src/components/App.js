@@ -10,10 +10,8 @@ export const App = (props) => {
     return (
     <Router>
         <Switch>
-            <Route>
-                <Init path="/"/>
-                <SignupPage path="/Signup"/>
-            </Route>         
+            <Route exact path="/"><Init  /></Route>
+            <Route exact path="/Signup"><SignupPage /></Route>  
         </Switch>
     </Router>
     ) 
