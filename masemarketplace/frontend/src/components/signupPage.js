@@ -76,7 +76,7 @@ function controlFields(values)
 
 function getUsername(username)
 {
-    
+       
 }
 
 export default function SignupPage() {
