@@ -74,6 +74,11 @@ function controlFields(values)
     }  
 }
 
+function getUsername(username)
+{
+    
+}
+
 export default function SignupPage() {
     const containerStyle={color:"#6567a5"}
     const [state, dispatch] = React.useReducer(exampleReducer, {
