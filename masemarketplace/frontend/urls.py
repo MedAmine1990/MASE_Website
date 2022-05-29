@@ -5,5 +5,6 @@ app_name='frontend'
 
 urlpatterns = [
     path('', index, name=''),
-    path('Signup', index, name='Signup')
+    path('Signup', index, name='Signup'),
+    path('Infosight', index, name='Infosight')
 ]

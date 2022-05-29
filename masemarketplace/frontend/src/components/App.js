@@ -3,6 +3,7 @@ import {render} from "react-dom";
 import { Link, BrowserRouter as Router,Switch,Route } from "react-router-dom";
 import Init from "./Init.js";
 import SignupPage from "./signupPage.js";
+import InfoSight from "./InfoSight";
 
 
 export const App = (props) => {
@@ -11,7 +12,8 @@ export const App = (props) => {
     <Router>
         <Switch>
             <Route exact path="/"><Init  /></Route>
-            <Route exact path="/Signup"><SignupPage /></Route>  
+            <Route exact path="/Signup"><SignupPage /></Route>
+            <Route exact path="/Infosight"><InfoSight /></Route>  
         </Switch>
     </Router>
     ) 
