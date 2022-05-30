@@ -6,6 +6,8 @@ git fetch --all
 
 git reset --hard origin/master
 
+pip install -r requirements.txt
+
 set -e
 /usr/src/masemarketplace_app/masemarketplace/manage.py runserver 0.0.0.0:8000
 
