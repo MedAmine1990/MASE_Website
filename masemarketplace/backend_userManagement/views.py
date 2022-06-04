@@ -30,6 +30,6 @@ class CreateUser(APIView):
                 username=username,
                 password=password)
                 _user.save()
-                return Response({'success': 'template saved successfully'}, status=status.HTTP_200_OK)
+                return Response({'success': 'user registred successfully'}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'request body does not match.'}, status=status.HTTP_400_BAD_REQUEST)

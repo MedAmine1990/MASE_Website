@@ -1,20 +1,24 @@
 //test
 import React, {useState} from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment, Modal } from 'semantic-ui-react'
+import axios from 'axios';
 
 import myImage from '/static/images/MaseSimracingLabs.png';
 import ModalComponent from "./Modal.js";
 import exampleReducer from "./ModalReducer.js";
 
-function controlFields(values)
+async function controlFields(values)
 {
+    var data = {
+        result: false,
+        message:'Not executed'
+    }
     //#region test empty fields
     for(let i=0; i<values.length; i++)
     {
-        if(values[i]=='') return {
-                result: false,
-                message:'One of the fields is missing for your signup !'
-            }
+        if(values[i]=='') 
+        data.message='One of the fields is missing for your signup !'
+        return data
             /*dispatch({ type: 'OPEN_MODAL', dimmer: 'blurring' })*/
     }
     //#endregion
@@ -22,29 +26,23 @@ function controlFields(values)
     var emailSplits=values[0].split('@')
     if (emailSplits.length!=2)
     {
-        return {
-            result: false,
-            message:'The email you set does not have an email format.'
-        }
+        data.message='The email you set does not have an email format.'
+        return data
     }
     else
     {
         if(!emailSplits[1].includes('.'))
         {
-            return {
-                result: false,
-                message:'The email you set does not have an email format.'
-            }
+                data.message='The email you set does not have an email format.'
+                return data
         }
         else
         {
             console.log(emailSplits[1].split('.').length);
             if(emailSplits[1].split('.')[1].length==0)
             {
-                return {
-                    result: false,
-                    message:'The email you set does not have an email format.'
-                }
+                data.message='The email you set does not have an email format.'
+                return data
             }
         }
     }
@@ -53,25 +51,30 @@ function controlFields(values)
     var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\?\$%\^&\*])(?=.{8,})");
     if(!strongRegex.test(values[2]))
     {
-         return {
-            result: false,
-            message:'The password is not strong enough. You must use at least: a lowercase,an uppercase, and a symbol. The password length must be 8 characters minimum.'
-        }
+        data.message='The password is not strong enough. You must use at least: a lowercase,an uppercase, and a symbol. The password length must be 8 characters minimum.'
+        return data
     }
     //endregion
     //#region test the password is matching
     if(values[2]!=values[3])
     {
-        return {
-            result: false,
-            message:'Your confirmation does not match the original password.'
-        }
+        data.message='Your confirmation does not match the original password.'
+        return data
     }
     //#endregion
-    return {
-        result:true,
-        message:''
-    }  
+    console.log('aa')
+    await axios.post('usermanagement/createuser', {
+        useremail:"med.amine.souissi@gmail.com",
+        username:"MedAmine1991",
+        password:"Sloppy123"
+    }).then(res =>{
+        if(res.data.error!="")
+        {
+            console.log(res.data.error)
+            data.message=res.data.error
+        }
+    })
+    return data
 }
 
 function getUsername(username)
@@ -129,14 +132,16 @@ export default function SignupPage() {
                     />
 
                     <Button color="violet" style={{ color:"#ffffff"}}  size='large'
-                    onClick={() => 
+                    onClick={async () => 
                                 {
-                                    if (!controlFields([email,username,password,passConfirm]).result) 
+                                    var signupResult= await controlFields([email,username,password,passConfirm])
+                                    console.log(signupResult)
+                                    if (!signupResult.result) 
                                     {
                                         dispatch({ 
                                                     type: 'OPEN_MODAL',
                                                     dimmer: 'blurring', 
-                                                    message:controlFields([email,username,password,passConfirm]).message,
+                                                    message:signupResult.message,
                                                     title:'Signup error'
                                                 })
                                     } 
