@@ -30,12 +30,15 @@
   },
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "axios": "^0.27.2",
     "bootstrap": "^5.0.2",
     "cdbreact": "^1.1.0",
+    "pure-react-carousel": "^1.28.1",
     "radium": "^0.26.1",
     "react-bootstrap": "^2.0.0-beta.4",
     "react-icons": "^4.2.0",
     "react-material-ui-carousel": "^2.2.7",
+    "react-router-dom": "^6.3.0",
     "react-swipeable-views": "^0.14.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3"
