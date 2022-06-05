@@ -11,14 +11,17 @@ async function controlFields(values)
 {
     var data = {
         result: false,
-        message:'Not executed'
+        message:'User input verficiation not executed'
     }
     //#region test empty fields
     for(let i=0; i<values.length; i++)
     {
-        if(values[i]=='') 
-        data.message='One of the fields is missing for your signup !'
-        return data
+        if(values[i]=='')
+        {
+            data.message='One of the fields is missing for your signup !'
+            return data
+        }
+        
             /*dispatch({ type: 'OPEN_MODAL', dimmer: 'blurring' })*/
     }
     //#endregion
@@ -26,6 +29,7 @@ async function controlFields(values)
     var emailSplits=values[0].split('@')
     if (emailSplits.length!=2)
     {
+        console.log('aa')
         data.message='The email you set does not have an email format.'
         return data
     }
@@ -64,23 +68,26 @@ async function controlFields(values)
     //#endregion
     console.log('aa')
     await axios.post('usermanagement/createuser', {
-        useremail:"med.amine.souissi@gmail.com",
-        username:"MedAmine1991",
-        password:"Sloppy123"
+        useremail:values[0],
+        username:values[1],
+        password:values[2]
     }).then(res =>{
-        if(res.data.error!="")
+        if(res.data.error!=null)
         {
             console.log(res.data.error)
             data.message=res.data.error
+        }
+        else
+        {
+            console.log('success')
+            data.message='User registration successful. A confirmation email is sent to your address in order in order to access your account.'
+            data.result=true
         }
     })
     return data
 }
 
-function getUsername(username)
-{
-       
-}
+
 
 export default function SignupPage() {
     const containerStyle={color:"#6567a5"}
@@ -88,13 +95,14 @@ export default function SignupPage() {
     open: false,
     dimmer: undefined,
     message:'',
-    title:''
+    title:'',
+    redirect:''
   })
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [passConfirm, setPassConfirm] = useState('')
-  const { open, dimmer, message, title} = state
+  const { open, dimmer, message, title, redirect} = state
   //console.log(open)
   //console.log(dimmer)
     return (
@@ -103,7 +111,8 @@ export default function SignupPage() {
                 dimmer={dimmer}
                 open={open}
                 message={message}
-                title={title}>
+                title={title}
+                redirect={redirect}>
             </ModalComponent>
             <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
                 <Grid.Column style={{ maxWidth: 450 }}>
@@ -142,9 +151,20 @@ export default function SignupPage() {
                                                     type: 'OPEN_MODAL',
                                                     dimmer: 'blurring', 
                                                     message:signupResult.message,
-                                                    title:'Signup error'
+                                                    title:'Signup error',
+                                                    redirect:''
                                                 })
-                                    } 
+                                    }
+                                    else
+                                    {
+                                         dispatch({ 
+                                                    type: 'OPEN_MODAL',
+                                                    dimmer: 'blurring', 
+                                                    message:signupResult.message,
+                                                    title:'Signup success !',
+                                                    redirect:'/'
+                                                })
+                                    }
                                 } 
                             }
                     >
