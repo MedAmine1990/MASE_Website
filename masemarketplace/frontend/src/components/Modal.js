@@ -36,9 +36,13 @@ export default function ModalComponent(props) {
     <div>
 
       <Modal
+        closeOnDimmerClick={false}
         dimmer={props.dimmer}
         open={props.open}
-        onClose={() => {props.open=false; dispatch({ type: 'CLOSE_MODAL' })}}
+        onClose={() => {
+            props.open=false; 
+            dispatch({ type: 'CLOSE_MODAL' });
+          }}
       >
         <Modal.Header>{props.title}</Modal.Header>
         <Modal.Content>
