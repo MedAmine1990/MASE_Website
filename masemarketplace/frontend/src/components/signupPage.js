@@ -6,6 +6,7 @@ import axios from 'axios';
 import myImage from '/static/images/MaseSimracingLabs.png';
 import ModalComponent from "./Modal.js";
 import exampleReducer from "./ModalReducer.js";
+import Login from "./googleSignUp.js"
 
 async function controlFields(values)
 {
@@ -170,8 +171,10 @@ export default function SignupPage() {
                     >
                         Sign up
                     </Button>
+                   
                     </Segment>
                 </Form>
+                 <Login/>
                 <Message>
                     Already a member? <a href='#'>Sign in</a>
                 </Message>
