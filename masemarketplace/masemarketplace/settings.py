@@ -37,6 +37,9 @@ ALLOWED_HOSTS = ['*']
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
 
+#Base backend URL
+BASE_BACKEND_URL = env.str('DJANGO_BASE_BACKEND_URL', default='http://localhost:8000')
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -160,3 +163,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+GOOGLE_OAUTH2_CLIENT_ID = env.str('DJANGO_GOOGLE_OAUTH2_CLIENT_ID')
+GOOGLE_OAUTH2_CLIENT_SECRET = env.str('DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET')
