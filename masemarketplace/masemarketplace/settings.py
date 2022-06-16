@@ -9,10 +9,16 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import datetime
+import environ
 from pathlib import Path
 import os
 
+
+env = environ.Env(
+    DEBUG=(int, 0)
+)
+environ.Env.read_env('.env')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,7 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'frontend.apps.FrontendConfig',
-    'backend_userManagement.apps.BackendUsermanagementConfig'
+    'backend_userManagement.apps.BackendUsermanagementConfig',
+    'rest_framework_jwt',
+    'rest_framework_jwt.blacklist',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +78,22 @@ TEMPLATES = [
         },
     },
 ]
+
+# JWT settings
+JWT_EXPIRATION_DELTA_DEFAULT = 2.628e+6  # 1 month in seconds
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(
+        seconds=env.int(
+            'DJANGO_JWT_EXPIRATION_DELTA',
+            default=JWT_EXPIRATION_DELTA_DEFAULT
+        )
+    ),
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
+    'JWT_GET_USER_SECRET_KEY': lambda user: user.secret_key,
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'users.selectors.jwt_response_payload_handler',
+    'JWT_AUTH_COOKIE': 'jwt_token',
+    'JWT_AUTH_COOKIE_SAMESITE': 'None'
+}
 
 WSGI_APPLICATION = 'masemarketplace.wsgi.application'
 
