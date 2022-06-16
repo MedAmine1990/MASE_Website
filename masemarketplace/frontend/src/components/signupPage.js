@@ -7,6 +7,7 @@ import myImage from '/static/images/MaseSimracingLabs.png';
 import ModalComponent from "./Modal.js";
 import exampleReducer from "./ModalReducer.js";
 import Login from "./googleSignUp.js"
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 async function controlFields(values)
 {
@@ -174,7 +175,9 @@ export default function SignupPage() {
                    
                     </Segment>
                 </Form>
-                 <Login/>
+                  <GoogleOAuthProvider clientId="28065806720-mr4ejasfu9plel4ff1b8g423masltllb.apps.googleusercontent.com">
+                                    <Login/>
+                  </GoogleOAuthProvider>
                 <Message>
                     Already a member? <a href='#'>Sign in</a>
                 </Message>
