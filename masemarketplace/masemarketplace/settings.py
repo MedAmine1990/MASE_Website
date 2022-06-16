@@ -13,6 +13,7 @@ import datetime
 import environ
 from pathlib import Path
 import os
+from django.core.management.utils import get_random_secret_key
 
 
 env = environ.Env(
@@ -27,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-p-z^8o+djxm_)3qx=sa6=p&$n%)699@gu*-iyf=_l5=y2ur!&a'
+SECRET_KEY = env.str('DJANGO_SECRET_KEY', default=get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
