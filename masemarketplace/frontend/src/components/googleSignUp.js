@@ -12,13 +12,18 @@ export default function Login()
                 flow: 'auth-code',
     });
 
-   return   (
+    return   (
                    
-                        <Button onClick={() => googleLogin()}>
+                        <Button color="standard" onClick={() => googleLogin()}>
                                 Sign in with Google 🚀{' '}
                         </Button>
                     
             ) 
+
+       /* return (<GoogleLogin
+                        onClick={() => console.log('click')}
+                        />
+                ) */
 }
 
 
