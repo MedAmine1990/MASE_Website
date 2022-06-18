@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin,useGoogleLogin } from '@react-oauth/google';
 import { Button,Image} from 'semantic-ui-react'
+import googleicon from '/static/images/googleIcon.png';
 
 export default function Login()
 {
@@ -14,14 +15,17 @@ export default function Login()
 
     return   (
                    
-                        <Button color="blue" 
+                        <Button color="standard" 
                                 style={{width:'100%'}} 
                                 icon='google'
                                 onClick={() => googleLogin()} 
                                 size='large'
                                 content='Sign in with Google' 
-                                ><Image src='https://react.semantic-ui.com/images/wireframe/image.png' size='small' /> Sign in with google
-                                
+                                >
+                                <div>
+                                        <Image src={googleicon} avatar />{' '}
+                                        <span>Sign in with Google</span>
+                                </div>
                         </Button>
                     
             ) 
