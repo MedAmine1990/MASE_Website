@@ -23,7 +23,7 @@ export default function Login()
                                 content='Sign in with Google' 
                                 >
                                 <div>
-                                        <Image src={googleicon} avatar />{' '}
+                                        <Image src={googleicon} verticalAlign='bottom' />{' '}
                                         <span>Sign in with Google</span>
                                 </div>
                         </Button>
