@@ -141,8 +141,8 @@ export default function SignupPage() {
                         type='password'
                         onChange={event => {setPassConfirm(event.target.value); dispatch({ type: 'CLOSE_MODAL' });}}
                     />
-
-                    <Button color="violet" style={{ color:"#ffffff"}}  size='large'
+                    <div style={{width:'30vh'}} verticalAlign='middle' textAlign='center'>
+                    <Button color="violet" style={{ color:"#ffffff", marginBottom:'14px', width:'100%', marginLeft:'auto' }}  size='large'
                     onClick={async () => 
                                 {
                                     var signupResult= await controlFields([email,username,password,passConfirm])
@@ -170,14 +170,15 @@ export default function SignupPage() {
                                 } 
                             }
                     >
-                        Sign up
+                        Signup
                     </Button>
-                   
+                    <GoogleOAuthProvider clientId="28065806720-mr4ejasfu9plel4ff1b8g423masltllb.apps.googleusercontent.com" >
+                                        <Login />
+                    </GoogleOAuthProvider>
+                    </div>
                     </Segment>
                 </Form>
-                  <GoogleOAuthProvider clientId="28065806720-mr4ejasfu9plel4ff1b8g423masltllb.apps.googleusercontent.com">
-                                    <Login/>
-                  </GoogleOAuthProvider>
+                  
                 <Message>
                     Already a member? <a href='#'>Sign in</a>
                 </Message>
