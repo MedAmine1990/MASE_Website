@@ -174,7 +174,7 @@ export default function SignupPage() {
                         Signup
                     </Button>
                     <GoogleOAuthProvider clientId="28065806720-mr4ejasfu9plel4ff1b8g423masltllb.apps.googleusercontent.com" >
-                                        <Login />
+                                        <Login/>
                     </GoogleOAuthProvider>
                     </div>
                     </Segment>
