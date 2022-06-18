@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from rest_framework import status, serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
+import requests
 # Create your views here.
 
 
@@ -13,12 +14,11 @@ class getUserData(APIView):
     class InputSerializer(serializers.Serializer):
         code = serializers.CharField(required=False)
         error = serializers.CharField(required=False)
-    def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         input_serializer = self.InputSerializer(data=request.data)
         input_serializer.is_valid(raise_exception=True)
 
         validated_data = input_serializer.validated_data
-        print(validated_data)
         code = validated_data.get('code')
         error = validated_data.get('error')
         domain = settings.BASE_BACKEND_URL
@@ -26,8 +26,12 @@ class getUserData(APIView):
         #redirect_uri = f'{domain}{api_uri}'
 
         access_token = google_get_access_token(code=code, redirect_uri='http://localhost:8000')
-        user_data = google_get_user_info(access_token=access_token)
-        print(user_data)
+        #print('token:'+access_token)
+        if 'error' in access_token:
+            return Response(access_token,status=status.HTTP_204_NO_CONTENT) 
+        user_data = google_get_user_info(access_token=access_token['access_token'])
+        if 'error' in user_data:
+            return Response(user_data,status=status.HTTP_204_NO_CONTENT) 
         profile_data = {
             'email': user_data['email'],
             'first_name': user_data.get('given_name', ''),

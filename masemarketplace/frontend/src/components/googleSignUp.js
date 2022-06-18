@@ -3,13 +3,31 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin,useGoogleLogin } from '@react-oauth/google';
 import { Button,Image} from 'semantic-ui-react'
 import googleicon from '/static/images/googleIcon.png';
+import axios from 'axios';
 
 export default function Login()
 {
 
     
     const googleLogin = useGoogleLogin({
-    onSuccess:  codeResponse => console.log(codeResponse),
+    onSuccess:  codeResponse => {
+                console.log(codeResponse.code);
+                axios.post('googleauth/getuserdata', {
+                                code:codeResponse.code
+                }).then(res =>{
+                        if(res.data.error!=null)
+                        {
+                                console.log(res.data.error)
+                                data.message=res.data.error
+                        }
+                        else
+                        {
+                                console.log('success')
+                                console.log(res)
+                        }
+
+                });
+    },
                 flow: 'auth-code',
     });
 
