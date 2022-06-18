@@ -19,6 +19,7 @@ class CreateUser(APIView):
             useremail=serializer.data.get('useremail')
             username=serializer.data.get('username')
             password=serializer.data.get('password')
+            source=serializer.data.get('source')
             checkusername=user.objects.filter(username=username)
             checkemail=user.objects.filter(useremail=useremail)
             if checkusername.exists():
@@ -28,7 +29,8 @@ class CreateUser(APIView):
             else:
                 _user=user(useremail=useremail,
                 username=username,
-                password=password)
+                password=password,
+                source=source)
                 _user.save()
                 return Response({'success': 'user registred successfully'}, status=status.HTTP_200_OK)
         else:

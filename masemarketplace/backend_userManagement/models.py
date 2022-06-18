@@ -6,4 +6,5 @@ from django.db import models
 class user(models.Model):
     useremail=models.CharField(max_length=80)
     username=models.CharField(max_length=80)
-    password=models.CharField(max_length=80)
+    password=models.CharField(max_length=80,null=True)
+    source=models.CharField(max_length=80,default='ManualInput')

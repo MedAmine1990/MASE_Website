@@ -23,7 +23,22 @@ export default function Login()
                         else
                         {
                                 console.log('success')
-                                console.log(res)
+                                console.log(res.data)
+                                axios.post('usermanagement/createuser', {
+                                        useremail:res.data.email,
+                                        username:res.data.email,
+                                        password:null,
+                                        source:'GoogleAuth'
+                                }).then(res =>{
+                                        if(res.data.error!=null)
+                                        {
+                                                console.log(res.data.error)
+                                        }
+                                        else
+                                        {
+                                                console.log('success')
+                                        }
+                                })
                         }
 
                 });

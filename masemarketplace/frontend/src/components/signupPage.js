@@ -72,7 +72,8 @@ async function controlFields(values)
     await axios.post('usermanagement/createuser', {
         useremail:values[0],
         username:values[1],
-        password:values[2]
+        password:values[2],
+        source:'ManualInput'
     }).then(res =>{
         if(res.data.error!=null)
         {
