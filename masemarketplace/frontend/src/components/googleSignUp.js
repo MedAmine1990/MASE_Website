@@ -10,7 +10,7 @@ import exampleReducer from "./ModalReducer.js";
 async function GoogleSignup(codeResponse)
 {
 
-                console.log(codeResponse.code);
+                //console.log(codeResponse.code);
                 var data = {
                         result: false,
                         message:'No google auth performed by user'
@@ -20,13 +20,13 @@ async function GoogleSignup(codeResponse)
                 }).then(async res =>{
                         if(res.data.error!=null)
                         {
-                                console.log(res.data.error)
+                                //console.log(res.data.error)
                                 data.message=res.data.error
                         }
                         else
                         {
-                                console.log('success')
-                                console.log(res.data)
+                                //console.log('success')
+                                //console.log(res.data)
                                 await axios.post('usermanagement/createuser', {
                                         useremail:res.data.email,
                                         username:res.data.email,
@@ -35,12 +35,12 @@ async function GoogleSignup(codeResponse)
                                 }).then(res =>{
                                         if(res.data.error!=null)
                                         {
-                                                console.log(res.data.error)
+                                                //console.log(res.data.error)
                                                 data.message=res.data.error
                                         }
                                         else
                                         {
-                                                console.log('success')
+                                                //console.log('success')
                                                 data.message='You are successfully logged in with google. You can add your user details later on.'
                                                 data.result=true
                                         }
@@ -64,7 +64,7 @@ export default function Login()
     
     const googleLogin = useGoogleLogin({
     onSuccess: async  codeResponse => {var signupResult=await GoogleSignup(codeResponse); 
-    console.log("GoogleAuthResult:"+signupResult.message);
+    //console.log("GoogleAuthResult:"+signupResult.message);
     if (!signupResult.result) 
         {
                 dispatch({ 
@@ -114,7 +114,7 @@ export default function Login()
             ) 
 
        /* return (<GoogleLogin
-                        onClick={() => console.log('click')}
+                        onClick={() => //console.log('click')}
                         />
                 ) */
 }
