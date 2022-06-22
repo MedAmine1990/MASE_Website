@@ -38,12 +38,17 @@ class CreateUser(APIView):
 
 class LoginUser(APIView):
     def post(self, request, format=None):
-        #useremail=request.data['useremail']
-        #print('useremail'+str(useremail))
-        username=request.data['username']
-        print('username'+str(username))
-        password=request.data['password']
-        checkusercredentials=user.objects.filter(username=username).filter(password=password)
+        useremail=None
+        username=None
+        checkusercredentials=None
+        if 'useremail' in request.data:
+            useremail=request.data['useremail']
+            password=request.data['password']
+            checkusercredentials=user.objects.filter(useremail=useremail).filter(password=password)
+        if 'username' in request.data:
+            username=request.data['username']
+            password=request.data['password']
+            checkusercredentials=user.objects.filter(username=username).filter(password=password)
         if checkusercredentials.exists():
             return Response({'success':'User credentials are correct.'})
         else:
