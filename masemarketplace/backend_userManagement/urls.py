@@ -6,5 +6,6 @@ app_name='backend_userManagement'
 
 
 urlpatterns = [
-    path('createuser', CreateUser.as_view())
+    path('createuser', CreateUser.as_view()),
+    path('loginuser', LoginUser.as_view())
 ]

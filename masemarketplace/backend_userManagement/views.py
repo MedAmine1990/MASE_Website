@@ -35,3 +35,17 @@ class CreateUser(APIView):
                 return Response({'success': 'user registred successfully'}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'request body does not match.'}, status=status.HTTP_400_BAD_REQUEST)
+
+class LoginUser(APIView):
+    def post(self, request, format=None):
+        #useremail=request.data['useremail']
+        #print('useremail'+str(useremail))
+        username=request.data['username']
+        print('username'+str(username))
+        password=request.data['password']
+        checkusercredentials=user.objects.filter(username=username).filter(password=password)
+        if checkusercredentials.exists():
+            return Response({'success':'User credentials are correct.'})
+        else:
+            return Response({'error':'username, email or password mismatch.'})
+            

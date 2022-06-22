@@ -37,6 +37,11 @@ async function GoogleSignup(codeResponse)
                                         {
                                                 //console.log(res.data.error)
                                                 data.message=res.data.error
+                                                if (res.data.error=='username already exists.' || res.data.error=='user email already exists.')
+                                                {
+                                                        data.message='You are successfully logged in. Welcome back !'
+                                                        data.result=true
+                                                }
                                         }
                                         else
                                         {
@@ -102,11 +107,11 @@ export default function Login()
                                         icon='google'
                                         onClick={() => googleLogin()} 
                                         size='large'
-                                        content='Sign in with Google' 
+                                        content='Continue with Google' 
                                         >
                                         <div>
                                                 <Image src={googleicon} verticalAlign='bottom' />{' '}
-                                                <span>Sign in with Google</span>
+                                                <span>Continue with Google</span>
                                         </div>
                                 </Button>
                         </div>
