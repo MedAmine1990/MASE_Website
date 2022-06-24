@@ -9,7 +9,7 @@ import exampleReducer from "./ModalReducer.js";
 
 async function GoogleSignup(codeResponse)
 {
-
+                var createUserEmail="";
                 //console.log(codeResponse.code);
                 var data = {
                         result: false,
@@ -27,20 +27,34 @@ async function GoogleSignup(codeResponse)
                         {
                                 //console.log('success')
                                 //console.log(res.data)
+                                createUserEmail=res.data.email
                                 await axios.post('usermanagement/createuser', {
                                         useremail:res.data.email,
                                         username:res.data.email,
                                         password:null,
                                         source:'GoogleAuth'
-                                }).then(res =>{
+                                }).then(async res =>{
                                         if(res.data.error!=null)
                                         {
                                                 //console.log(res.data.error)
                                                 data.message=res.data.error
                                                 if (res.data.error=='username already exists.' || res.data.error=='user email already exists.')
                                                 {
-                                                        data.message='You are successfully logged in. Welcome back !'
-                                                        data.result=true
+                                                        await axios.post('usermanagement/googleloginuser',{
+                                                                useremail:createUserEmail
+                                                        }).then(res => {
+                                                                if(res.data.error!=null)
+                                                                {
+                                                                        data.message='An error happenend while logging you in.'
+                                                                        data.result=false
+                                                                }
+                                                                else
+                                                                {
+                                                                        data.message='You are successfully logged in. Welcome back !'
+                                                                        data.result=true
+                                                                }
+                                                        })
+                                                        
                                                 }
                                         }
                                         else

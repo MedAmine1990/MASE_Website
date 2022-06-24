@@ -38,8 +38,6 @@ class CreateUser(APIView):
 
 class LoginUser(APIView):
     def post(self, request, format=None):
-        useremail=None
-        username=None
         checkusercredentials=None
         if 'useremail' in request.data:
             useremail=request.data['useremail']
@@ -53,4 +51,18 @@ class LoginUser(APIView):
             return Response({'success':'User credentials are correct.'})
         else:
             return Response({'error':'username, email or password mismatch.'})
+
+
+class ggLoginUser(APIView):
+    def post(self, request, format=None):
+        try:
+            useremail=request.data['useremail']
+            checkuseremail=user.objects.filter(useremail=useremail)
+            if checkuseremail.exists():
+                return Response({'success':'User email exisits. Login granted.'})
+        except Exception as e:
+            return Response({'error':'API call error happened.'})
+
+
+
             
