@@ -39,14 +39,15 @@ class CreateUser(APIView):
 class LoginUser(APIView):
     def post(self, request, format=None):
         checkusercredentials=None
-        if 'useremail' in request.data:
-            useremail=request.data['useremail']
-            password=request.data['password']
-            checkusercredentials=user.objects.filter(useremail=useremail).filter(password=password)
-        if 'username' in request.data:
-            username=request.data['username']
-            password=request.data['password']
-            checkusercredentials=user.objects.filter(username=username).filter(password=password)
+        useremailorname=request.data['useremailorname']
+        password=request.data['password']
+        checkusercredentials=user.objects.filter(useremail=useremailorname).filter(password=password)
+        if not checkusercredentials.exists():
+            checkusercredentials=user.objects.filter(username=useremailorname).filter(password=password)
+        if not checkusercredentials.exists():
+            checkuser=user.objects.filter(useremail=useremailorname).filter(source='GoogleAuth')
+            if checkuser.exists():
+                return Response({'error':'User account registred with google.'})
         if checkusercredentials.exists():
             return Response({'success':'User credentials are correct.'})
         else:

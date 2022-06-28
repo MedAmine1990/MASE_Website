@@ -31,7 +31,7 @@ async function controlFields(values)
     var emailSplits=values[0].split('@')
     if (emailSplits.length!=2)
     {
-        console.log('aa')
+        //console.log('aa')
         data.message='The email you set does not have an email format.'
         return data
     }
@@ -44,7 +44,7 @@ async function controlFields(values)
         }
         else
         {
-            console.log(emailSplits[1].split('.').length);
+            //console.log(emailSplits[1].split('.').length);
             if(emailSplits[1].split('.')[1].length==0)
             {
                 data.message='The email you set does not have an email format.'
@@ -68,7 +68,7 @@ async function controlFields(values)
         return data
     }
     //#endregion
-    console.log('aa')
+    //console.log('aa')
     await axios.post('usermanagement/createuser', {
         useremail:values[0],
         username:values[1],
@@ -77,12 +77,12 @@ async function controlFields(values)
     }).then(res =>{
         if(res.data.error!=null)
         {
-            console.log(res.data.error)
+            //console.log(res.data.error)
             data.message=res.data.error
         }
         else
         {
-            console.log('success')
+            //console.log('success')
             data.message='User registration successful. A confirmation email is sent to your address in order in order to access your account.'
             data.result=true
         }
@@ -106,8 +106,8 @@ export default function SignupPage() {
   const [password, setPassword] = useState('')
   const [passConfirm, setPassConfirm] = useState('')
   const { open, dimmer, message, title, redirect} = state
-  //console.log(open)
-  //console.log(dimmer)
+  ////console.log(open)
+  ////console.log(dimmer)
     return (
         <div style={{display: 'flex',  justifyContent:'center', alignItems:'center',backgroundColor:"#5544D4", height:"100vh"}}>
             <ModalComponent  
@@ -147,7 +147,7 @@ export default function SignupPage() {
                     onClick={async () => 
                                 {
                                     var signupResult= await controlFields([email,username,password,passConfirm])
-                                    console.log(signupResult)
+                                    //console.log(signupResult)
                                     if (!signupResult.result) 
                                     {
                                         dispatch({ 
