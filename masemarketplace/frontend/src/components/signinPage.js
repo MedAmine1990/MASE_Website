@@ -21,6 +21,7 @@ async function loginStandard(values)
     }).then(res =>{
         if(res.data.error!=null)
         {
+            console.log('error')
             console.log(res.data.error)
             data.message=res.data.error
         }
@@ -65,14 +66,14 @@ export default function SigninPage()
                                     icon='user' 
                                     iconPosition='left' 
                                     placeholder='E-mail or username' 
-                                    onChange={event => {setUseremailorname(event.target.value)} } />
+                                    onChange={event => {setUseremailorname(event.target.value); dispatch({ type: 'CLOSE_MODAL' });} } />
                         <Form.Input
                             id='password'
                             icon='lock'
                             iconPosition='left'
                             placeholder='Password'
                             type='password'
-                            onChange={event => {setPassword(event.target.value)} }
+                            onChange={event => {setPassword(event.target.value); dispatch({ type: 'CLOSE_MODAL' });} }
                         />
                         <div style={{width:'30vh'}} verticalAlign='middle' textAlign='center'>
                             <Button color="violet" 
@@ -80,7 +81,27 @@ export default function SigninPage()
                                     size='large' 
                                     content='Signin'
                                     onClick={async ()=>{
-                                        loginStandard([useremailorname,password]);
+                                        var loginResult= await loginStandard([useremailorname,password]);
+                                        if(!loginResult.result)
+                                        {
+                                            dispatch({ 
+                                                    type: 'OPEN_MODAL',
+                                                    dimmer: 'blurring', 
+                                                    message:loginResult.message,
+                                                    title:'Signup error',
+                                                    redirect:''
+                                                })
+                                        }
+                                        else
+                                        {
+                                            dispatch({ 
+                                                    type: 'OPEN_MODAL',
+                                                    dimmer: 'blurring', 
+                                                    message:loginResult.message,
+                                                    title:'Signup success !',
+                                                    redirect:'/'
+                                                })
+                                        }
                                     }}
                                     />
                             
