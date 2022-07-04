@@ -1,6 +1,8 @@
 from rest_framework_jwt.settings import api_settings
 from rest_framework_jwt.compat import set_cookie_with_token
-from .models import user
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+
 
 
 
