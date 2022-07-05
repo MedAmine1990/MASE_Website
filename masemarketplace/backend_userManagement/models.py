@@ -3,11 +3,12 @@ from django.contrib.auth.models import AbstractUser
 from django.core.management.utils import get_random_secret_key
 
 
-class User(AbstractUser):
-    username = None
+class user(AbstractUser):
+    username = models.CharField(max_length=255)
 
     email = models.EmailField(unique=True, db_index=True)
     secret_key = models.CharField(max_length=255, default=get_random_secret_key)
+    source= models.CharField(max_length=255)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

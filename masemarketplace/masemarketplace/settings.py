@@ -103,6 +103,8 @@ JWT_AUTH = {
 
 WSGI_APPLICATION = 'masemarketplace.wsgi.application'
 
+# Custom user model
+AUTH_USER_MODEL = 'backend_userManagement.user'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
