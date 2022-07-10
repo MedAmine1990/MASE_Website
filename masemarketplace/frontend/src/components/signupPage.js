@@ -70,7 +70,7 @@ async function controlFields(values)
     //#endregion
     //console.log('aa')
     await axios.post('usermanagement/createuser', {
-        useremail:values[0],
+        email:values[0],
         username:values[1],
         password:values[2],
         source:'ManualInput'

@@ -29,7 +29,7 @@ async function GoogleSignup(codeResponse)
                                 //console.log(res.data)
                                 createUserEmail=res.data.email
                                 await axios.post('usermanagement/createuser', {
-                                        useremail:res.data.email,
+                                        email:res.data.email,
                                         username:res.data.email,
                                         password:null,
                                         source:'GoogleAuth'
@@ -41,7 +41,7 @@ async function GoogleSignup(codeResponse)
                                                 if (res.data.error=='username already exists.' || res.data.error=='user email already exists.')
                                                 {
                                                         await axios.post('usermanagement/googleloginuser',{
-                                                                useremail:createUserEmail
+                                                                email:createUserEmail
                                                         }).then(res => {
                                                                 if(res.data.error!=null)
                                                                 {

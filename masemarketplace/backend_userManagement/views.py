@@ -12,6 +12,7 @@ from .loginjwtservice import jwt_login
 from django.shortcuts import redirect
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password, check_password
 #from django.contrib.auth.models import user
 # Create your views here.
 
@@ -31,28 +32,37 @@ class CreateUser(APIView):
         else:
             _user=user(email=useremail,
                         username=username,
-                        password=password,
+                        password=make_password(password),
                         source=source)
             _user.save()
             return Response({'success': 'user registred successfully'}, status=status.HTTP_200_OK)
 
 class LoginUser(APIView):
     def post(self, request, format=None):
-        checkusercredentials=None
+        checkuser=None
+        checkpassword=False
+        _user=None
         useremailorname=request.data['useremailorname']
         password=request.data['password']
-        checkusercredentials=user.objects.filter(email=useremailorname).filter(password=password)
-        if not checkusercredentials.exists():
-            checkusercredentials=user.objects.filter(username=useremailorname).filter(password=password)
-        if not checkusercredentials.exists():
-            checkuser=user.objects.filter(email=useremailorname).filter(source='GoogleAuth')
-            if checkuser.exists():
-                return Response({'error':'user account registred with google.'})
-        if checkusercredentials.exists():
-            response = redirect(settings.BASE_FRONTEND_URL)
+        print(make_password(password))
+        checkuser=user.objects.filter(email=useremailorname)
+        if checkuser.exists():
             _user=user.objects.get(email=useremailorname)
-            print(jwt_login(response=response,user=_user))
-            return Response({'success':'user credentials are correct.'})
+            checkpassword=check_password(password,_user.password)
+        else:
+            checkuser=user.objects.filter(username=useremailorname)
+            if checkuser.exists():
+                _user=user.objects.get(username=useremailorname)
+                checkpassword=check_password(password,_user.password)
+            if not checkuser.exists():
+                checkuser_googleAuth=user.objects.filter(email=useremailorname).filter(source='GoogleAuth')
+                if checkuser_googleAuth.exists():
+                    return Response({'error':'user account registred with google.'})
+        if checkpassword:
+            response = redirect(settings.BASE_FRONTEND_URL)
+            loginToken=jwt_login(response=response,user=_user)
+            return Response({'success':'user credentials are correct.',
+                            'token':loginToken})
         else:
             return Response({'error':'username, email or password mismatch.'})
 
