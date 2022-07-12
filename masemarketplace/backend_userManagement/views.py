@@ -59,10 +59,10 @@ class LoginUser(APIView):
                 if checkuser_googleAuth.exists():
                     return Response({'error':'user account registred with google.'})
         if checkpassword:
-            response = redirect(settings.BASE_FRONTEND_URL)
-            loginToken=jwt_login(response=response,user=_user)
-            return Response({'success':'user credentials are correct.',
-                            'token':loginToken})
+            _user.password=password
+            response=jwt_login(_user)
+            return Response({'access':response['access'],
+                                'refresh':response['refresh']})
         else:
             return Response({'error':'username, email or password mismatch.'})
 
