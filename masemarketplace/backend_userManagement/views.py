@@ -11,7 +11,7 @@ from .models import user
 from .loginjwtservice import jwt_login
 from django.shortcuts import redirect
 from django.conf import settings
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.hashers import make_password, check_password
 #from django.contrib.auth.models import user
 # Create your views here.
@@ -61,10 +61,24 @@ class LoginUser(APIView):
         if checkpassword:
             _user.password=password
             response=jwt_login(_user)
+            request.session['username']=_user.username
+            request.session['access_token']=response['access']
+            request.session['refresh']=response['refresh']
             return Response({'access':response['access'],
                                 'refresh':response['refresh']})
         else:
             return Response({'error':'username, email or password mismatch.'})
+
+class getSessionCookies(APIView):
+    def get(self, request, format=None):
+        username=request.session['username']
+        access_token=request.session['access_token']
+        refresh=request.session['refresh']
+        return Response ({
+            'username':username,
+            'access_token':access_token,
+            'refresh':refresh
+        })
 
 
 class ggLoginUser(APIView):
@@ -76,6 +90,14 @@ class ggLoginUser(APIView):
                 return Response({'success':'user email exisits. Login granted.'})
         except Exception as e:
             return Response({'error':'API call error happened.'})
+
+class logoutUser(APIView):
+    def get(self, request, format=None):
+        try:
+            logout(request)
+            return Response({'success': 'User logged out from session.'})
+        except Exception as e:
+            return Response({'error': str(e)})
 
 
 

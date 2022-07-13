@@ -85,7 +85,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    #'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'frontend.apps.FrontendConfig',
@@ -128,6 +128,8 @@ TEMPLATES = [
     },
 ]
 
+#session engine setting
+SESSION_ENGINE='django.contrib.sessions.backends.signed_cookies'
 # JWT settings
 JWT_EXPIRATION_DELTA_DEFAULT = 2.628e+6  # 1 month in seconds
 JWT_AUTH = {
