@@ -71,14 +71,20 @@ class LoginUser(APIView):
 
 class getSessionCookies(APIView):
     def get(self, request, format=None):
-        username=request.session['username']
-        access_token=request.session['access_token']
-        refresh=request.session['refresh']
-        return Response ({
-            'username':username,
-            'access_token':access_token,
-            'refresh':refresh
-        })
+        if 'username' in request.session:
+            username=request.session['username']
+            access_token=request.session['access_token']
+            refresh=request.session['refresh']
+            return Response ({
+                'username':username,
+                'access_token':access_token,
+                'refresh':refresh
+                })
+        else:
+            Response ({
+                'error':'Could not get session data.'
+                })
+        
 
 
 class ggLoginUser(APIView):
