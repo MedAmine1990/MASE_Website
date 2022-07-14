@@ -66,8 +66,7 @@ class LoginUser(APIView):
             request.session['username']=_user.username
             request.session['access_token']=response['access']
             request.session['refresh']=response['refresh']
-            return Response({'access':response['access'],
-                                'refresh':response['refresh']})
+            return Response({'success':'Login granted for user.'})
         else:
             return Response({'error':'username, email or password mismatch.'})
 
@@ -96,6 +95,11 @@ class ggLoginUser(APIView):
             useremail=request.data['email']
             checkuseremail=user.objects.filter(email=useremail).filter(source='GoogleAuth')
             if checkuseremail.exists():
+                _user=user.objects.get(username=useremail)
+                response=jwt_login(_user)
+                request.session['username']=_user.username
+                request.session['access_token']=response['access']
+                request.session['refresh']=response['refresh']
                 return Response({'success':'user email exisits. Login granted.'})
         except Exception as e:
             return Response({'error':'API call error happened.'})
