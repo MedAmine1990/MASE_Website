@@ -4,6 +4,7 @@ import { Link, BrowserRouter as Router,Routes,Route } from "react-router-dom";
 import Init from "./Init.js";
 import SignupPage from "./signupPage.js";
 import SigninPage from "./signinPage.js";
+import CodeConfirmationPage from "./codeConfirmationPage.js"
 import InfoSight from "./InfoSight";
 
 
@@ -15,6 +16,7 @@ export const App = (props) => {
             <Route exact path="/" element={<Init/>}></Route>
             <Route exact path="/Signup" element={<SignupPage/>}></Route>
             <Route exact path="/Signin" element={<SigninPage/>}></Route>
+            <Route exact path="/CodeConfirmation" element={<CodeConfirmationPage/>}></Route>
             <Route exact path="/Infosight" element={<InfoSight/>}></Route>  
         </Routes>
     </Router>

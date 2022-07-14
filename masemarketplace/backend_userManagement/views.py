@@ -14,6 +14,7 @@ from django.shortcuts import redirect
 from django.conf import settings
 from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.hashers import make_password, check_password
+import random
 
 #from django.contrib.auth.models import user
 # Create your views here.
@@ -35,7 +36,8 @@ class CreateUser(APIView):
             _user=user(email=useremail,
                         username=username,
                         password=make_password(password),
-                        source=source)
+                        source=source,
+                        verificationcode=str(random.randrange(999999)))
             _user.save()
             return Response({'success': 'user registred successfully'}, status=status.HTTP_200_OK)
 

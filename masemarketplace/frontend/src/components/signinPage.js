@@ -88,7 +88,7 @@ export default function SigninPage()
                                                     type: 'OPEN_MODAL',
                                                     dimmer: 'blurring', 
                                                     message:loginResult.message,
-                                                    title:'Signup error',
+                                                    title:'Signin error',
                                                     redirect:''
                                                 })
                                         }
@@ -98,7 +98,7 @@ export default function SigninPage()
                                                     type: 'OPEN_MODAL',
                                                     dimmer: 'blurring', 
                                                     message:loginResult.message,
-                                                    title:'Signup success !',
+                                                    title:'Signin success !',
                                                     redirect:'/'
                                                 })
                                         }
