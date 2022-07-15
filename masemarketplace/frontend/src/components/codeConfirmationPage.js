@@ -1,6 +1,6 @@
 //test
 import React, {useState} from 'react'
-import { Button, Form, Grid, Header, Image, Message, Segment, Modal } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Image, Message, Segment, Modal, Icon } from 'semantic-ui-react'
 import axios from 'axios';
 
 import myImage from '/static/images/MaseSimracingLabs.png';
@@ -51,6 +51,7 @@ export default function CodeConfirmationPage()
                             style={{ color:"#ffffff", marginTop:'15px', width:'200px' }}  
                             size='large' 
                             content='Verify'
+                            icon='checkmark'
                             onClick={async ()=>{
                                         var confirmationCode=digit[0]['value']+digit[1]['value']+digit[2]['value']+digit[3]['value']+digit[4]['value']+digit[5]['value'];
                                         await axios.post('usermanagement/verifyemail', {
@@ -72,10 +73,22 @@ export default function CodeConfirmationPage()
                                 color="standard" 
                                 content='Resend' 
                                 size='large' 
+                                icon='mail'
                                 style={{width:'200px', marginTop:'15px'}} 
                                 onClick={async ()=>{
-                                        
-                                }}/> 
+                                        await axios.get('usermanagement/resendverifyemail')
+                                        .then(res =>{
+                                            if(res.data.error!=null)
+                                                {
+                                                    console.log(res.data.error)
+                                                }
+                                                else
+                                                {
+                                                    console.log('confirmation code reset')
+                                                }
+                                        })
+                                }}>
+                                </Button> 
                         </Segment>
                     </Form>
                 </Grid.Column>

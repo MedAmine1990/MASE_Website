@@ -37,7 +37,7 @@ class CreateUser(APIView):
                         username=username,
                         password=make_password(password),
                         source=source,
-                        verificationcode=str(random.randrange(999999)))
+                        verificationcode=str(random.randrange(100000,999999)))
             _user.save()
             request.session['email']=_user.email
             return Response({'success': 'user registred successfully'}, status=status.HTTP_200_OK)
@@ -126,6 +126,15 @@ class verifyUserEmail(APIView):
                 return Response({'success': 'User email verified.'})
             else:
                 return Response({'error':'Verification code mismatch.'})
+        except Exception as e:
+            return Response({'error': str(e)})
+
+class resendEmailConfirmationCode(APIView):
+    def get(self, request, format=None):
+        try:
+            _email=request.session['email']
+            user.objects.filter(email=_email).update(verificationcode=str(random.randrange(100000,999999)))
+            return Response({'success': 'Verification code reset for email: '+_email})
         except Exception as e:
             return Response({'error': str(e)})
 
