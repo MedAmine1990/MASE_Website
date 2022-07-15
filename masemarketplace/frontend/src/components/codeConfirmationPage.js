@@ -51,8 +51,20 @@ export default function CodeConfirmationPage()
                             style={{ color:"#ffffff", marginTop:'15px', width:'200px' }}  
                             size='large' 
                             content='Verify'
-                            onClick={()=>{
+                            onClick={async ()=>{
                                         var confirmationCode=digit[0]['value']+digit[1]['value']+digit[2]['value']+digit[3]['value']+digit[4]['value']+digit[5]['value'];
+                                        await axios.post('usermanagement/verifyemail', {
+                                                            code:confirmationCode
+                                                        }).then(res =>{
+                                                                if(res.data.error!=null)
+                                                                {
+                                                                    console.log(res.data.error)
+                                                                }
+                                                                else
+                                                                {
+                                                                    console.log('code verified')
+                                                                }
+                                                            })
                                         console.log(confirmationCode);
                                 }}
                         />
@@ -60,7 +72,10 @@ export default function CodeConfirmationPage()
                                 color="standard" 
                                 content='Resend' 
                                 size='large' 
-                                style={{width:'200px', marginTop:'15px'}} /> 
+                                style={{width:'200px', marginTop:'15px'}} 
+                                onClick={async ()=>{
+                                        
+                                }}/> 
                         </Segment>
                     </Form>
                 </Grid.Column>

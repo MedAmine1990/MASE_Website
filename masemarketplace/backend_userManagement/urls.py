@@ -10,5 +10,6 @@ urlpatterns = [
     path('loginuser', LoginUser.as_view()),
     path('googleloginuser', ggLoginUser.as_view()),
     path('tescookie',getSessionCookies.as_view()),
-    path('logout',logoutUser.as_view())
+    path('logout',logoutUser.as_view()),
+    path('verifyemail',verifyUserEmail.as_view())
 ]

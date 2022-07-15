@@ -165,7 +165,7 @@ export default function SignupPage() {
                                                     dimmer: 'blurring', 
                                                     message:signupResult.message,
                                                     title:'Signup success !',
-                                                    redirect:'/'
+                                                    redirect:'/CodeConfirmation'
                                                 })
                                     }
                                 } 
