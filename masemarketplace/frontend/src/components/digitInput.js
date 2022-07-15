@@ -6,7 +6,7 @@ export default function DigitInput(props)
 {
     const [digit, setdigit] = useState('')
     return (
-        <Input id='digit'
+        <Input id='digit' value={props.value}
                                     onChange={event => {
                                         setdigit(event.target.value);
                                         props.digit=digit;
@@ -20,6 +20,10 @@ export default function DigitInput(props)
                                             }
                                             else if(digit.length>=1){
                                                         event.preventDefault();
+                                            }
+                                            else
+                                            {
+                                                props.value=event.key
                                             }
                                     }}
                                     size='huge'

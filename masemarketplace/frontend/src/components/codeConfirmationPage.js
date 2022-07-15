@@ -9,12 +9,15 @@ import exampleReducer from "./ModalReducer.js";
 import Login from "./googleSignUp.js"
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import DigitInput from './digitInput.js'
+import DigitInputReducer from './digitInputReducer.js'
 
 
 export default function CodeConfirmationPage()
 {
     const [password, setPassword] = useState('')
-
+    const [stateDigit, dispatchDigit]=React.useReducer(DigitInputReducer,{
+        value:''
+    })
     const [state, dispatch] = React.useReducer(exampleReducer, {
     open: false,
     dimmer: undefined,
@@ -22,6 +25,7 @@ export default function CodeConfirmationPage()
     title:'',
     redirect:''
     })
+    const {value} = stateDigit
     const { open, dimmer, message, title, redirect} = state
     return (
         <div style={{display: 'flex',  justifyContent:'center', alignItems:'center',backgroundColor:"#5544D4", height:"100vh"}}>
@@ -41,12 +45,12 @@ export default function CodeConfirmationPage()
                     </Message>
                     <Form size='large'>
                         <Segment stacked>
-                        <DigitInput />
-                        <DigitInput />
-                        <DigitInput />
-                        <DigitInput />
-                        <DigitInput />
-                        <DigitInput />
+                        <DigitInput value={value} />
+                        <DigitInput value={value} />
+                        <DigitInput value={value} />
+                        <DigitInput value={value} />
+                        <DigitInput value={value} />
+                        <DigitInput value={value} />
                         <Button color="violet" 
                             style={{ color:"#ffffff", marginTop:'15px', width:'200px' }}  
                             size='large' 
@@ -67,6 +71,7 @@ export default function CodeConfirmationPage()
                                                                 }
                                                             })
                                         console.log(confirmationCode);
+                                        dispatchDigit({ value: '' });
                                 }}
                         />
                         <Button 
@@ -76,6 +81,7 @@ export default function CodeConfirmationPage()
                                 icon='mail'
                                 style={{width:'200px', marginTop:'15px'}} 
                                 onClick={async ()=>{
+                                        dispatchDigit({ value: '' });
                                         await axios.get('usermanagement/resendverifyemail')
                                         .then(res =>{
                                             if(res.data.error!=null)
