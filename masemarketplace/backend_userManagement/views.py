@@ -39,6 +39,7 @@ class CreateUser(APIView):
                         source=source,
                         verificationcode=str(random.randrange(999999)))
             _user.save()
+            request.session['email']=_user.email
             return Response({'success': 'user registred successfully'}, status=status.HTTP_200_OK)
 
 class LoginUser(APIView):
@@ -66,6 +67,7 @@ class LoginUser(APIView):
             _user.password=password
             response=jwt_login(_user)
             request.session['username']=_user.username
+            request.session['email']=_user.email
             request.session['access_token']=response['access']
             request.session['refresh']=response['refresh']
             return Response({'success':'Login granted for user.'})
@@ -111,6 +113,19 @@ class logoutUser(APIView):
         try:
             logout(request)
             return Response({'success': 'User logged out from session.'})
+        except Exception as e:
+            return Response({'error': str(e)})
+
+class verifyUserEmail(APIView):
+    def post(self, request, format=None):
+        try:
+            _email=request.session['email']
+            _verificationCode=request.data['code']
+            verifycode=user.objects.filter(email=_email).filter(verificationcode=_verificationCode)
+            if verifycode.exists():
+                return Response({'success': 'User email verified.'})
+            else:
+                return Response({'error':'Verification code mismatch.'})
         except Exception as e:
             return Response({'error': str(e)})
 

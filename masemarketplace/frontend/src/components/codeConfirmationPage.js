@@ -13,7 +13,6 @@ import DigitInput from './digitInput.js'
 
 export default function CodeConfirmationPage()
 {
-    const [digit1, setdigit1] = useState('')
     const [password, setPassword] = useState('')
 
     const [state, dispatch] = React.useReducer(exampleReducer, {
@@ -33,14 +32,15 @@ export default function CodeConfirmationPage()
                 title={title}
                 redirect={redirect}>
             </ModalComponent>
+            
             <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
                 <Grid.Column style={{ maxWidth: 450 }}>
                 <Image src={myImage} size='medium' style={{margin:"auto"}}  />
+                    <Message>
+                        Verify your identity with the code received in your email.
+                    </Message>
                     <Form size='large'>
                         <Segment stacked>
-                        <Message>
-                            Verify your identity with the code received in your email.
-                        </Message>
                         <DigitInput />
                         <DigitInput />
                         <DigitInput />
@@ -51,28 +51,9 @@ export default function CodeConfirmationPage()
                             style={{ color:"#ffffff", marginTop:'15px', width:'200px' }}  
                             size='large' 
                             content='Verify'
-                            onClick={async ()=>{
-                            var loginResult= await loginStandard([useremailorname,password]);
-                                if(!loginResult.result)
-                                {
-                                    dispatch({ 
-                                                type: 'OPEN_MODAL',
-                                                dimmer: 'blurring', 
-                                                message:loginResult.message,
-                                                title:'Signup error',
-                                                redirect:''
-                                            })
-                                }
-                                else
-                                {
-                                    dispatch({ 
-                                                type: 'OPEN_MODAL',
-                                                dimmer: 'blurring', 
-                                                message:loginResult.message,
-                                                title:'Signup success !',
-                                                redirect:'/'
-                                            })
-                                }
+                            onClick={()=>{
+                                        var confirmationCode=digit[0]['value']+digit[1]['value']+digit[2]['value']+digit[3]['value']+digit[4]['value']+digit[5]['value'];
+                                        console.log(confirmationCode);
                                 }}
                         />
                         <Button 

@@ -2,13 +2,14 @@ import React, {useState} from 'react'
 import { Input } from "semantic-ui-react";
 
 
-export default function DigitInput()
+export default function DigitInput(props)
 {
     const [digit, setdigit] = useState('')
     return (
         <Input id='digit'
                                     onChange={event => {
                                         setdigit(event.target.value);
+                                        props.digit=digit;
                                         const form = event.target.form;
                                         const index = [...form].indexOf(event.target);
                                         form.elements[index + 1].focus();
