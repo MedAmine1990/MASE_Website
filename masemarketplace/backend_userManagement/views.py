@@ -35,7 +35,7 @@ class CreateUser(APIView):
         else:
             _user=user(email=useremail,
                         username=username,
-                        password=make_password(password),
+                        password=  make_password(user.objects.make_random_password()) if password==None else make_password(password),
                         source=source,
                         verificationcode=str(random.randrange(100000,999999)))
             _user.save()
@@ -49,7 +49,6 @@ class LoginUser(APIView):
         _user=None
         useremailorname=request.data['useremailorname']
         password=request.data['password']
-        print(make_password(password))
         checkuser=user.objects.filter(email=useremailorname)
         if checkuser.exists():
             _user=user.objects.get(email=useremailorname)
@@ -65,12 +64,16 @@ class LoginUser(APIView):
                     return Response({'error':'user account registred with google.'})
         if checkpassword:
             _user.password=password
-            response=jwt_login(_user)
-            request.session['username']=_user.username
-            request.session['email']=_user.email
-            request.session['access_token']=response['access']
-            request.session['refresh']=response['refresh']
-            return Response({'success':'Login granted for user.'})
+            if _user.verified is True:
+                response=jwt_login(_user,'ManualInput')
+                request.session['username']=_user.username
+                request.session['email']=_user.email
+                request.session['access_token']=response['access']
+                request.session['refresh']=response['refresh']
+                return Response({'success':'Login granted for user.'})
+            else:
+                request.session['email']=_user.email
+                return Response({'alert':'User is not verified.'})
         else:
             return Response({'error':'username, email or password mismatch.'})
 
@@ -96,16 +99,19 @@ class getSessionCookies(APIView):
 class ggLoginUser(APIView):
     def post(self, request, format=None):
         try:
+            print('in gg login user')
             useremail=request.data['email']
             checkuseremail=user.objects.filter(email=useremail).filter(source='GoogleAuth')
             if checkuseremail.exists():
+                print('in checkuseremail.exists()')
                 _user=user.objects.get(username=useremail)
-                response=jwt_login(_user)
+                response=jwt_login(_user,'GoogleAuth')
                 request.session['username']=_user.username
                 request.session['access_token']=response['access']
                 request.session['refresh']=response['refresh']
                 return Response({'success':'user email exisits. Login granted.'})
         except Exception as e:
+            print(str(e))
             return Response({'error':'API call error happened.'})
 
 class logoutUser(APIView):
@@ -123,6 +129,7 @@ class verifyUserEmail(APIView):
             _verificationCode=request.data['code']
             verifycode=user.objects.filter(email=_email).filter(verificationcode=_verificationCode)
             if verifycode.exists():
+                user.objects.filter(email=_email).update(verified=True)
                 return Response({'success': 'User email verified.'})
             else:
                 return Response({'error':'Verification code mismatch.'})

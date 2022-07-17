@@ -27,9 +27,17 @@ async function loginStandard(values)
         }
         else
         {
-            console.log('success')
-            data.message='You are successfully logged in, welcome back !'
-            data.result=true
+            if (res.data.alert != null)
+            {
+                data.message='Account not verified. Redirecting to verification page.'
+                data.result=true
+            }
+            else
+            {
+                data.message='You are successfully logged in, welcome back !'
+                data.result=true
+            }
+
         }
     })
     return data;
@@ -94,13 +102,27 @@ export default function SigninPage()
                                         }
                                         else
                                         {
-                                            dispatch({ 
+                                            if(loginResult.message=='Account not verified. Redirecting to verification page.')
+                                            {
+                                                dispatch({ 
+                                                    type: 'OPEN_MODAL',
+                                                    dimmer: 'blurring', 
+                                                    message:loginResult.message,
+                                                    title:'Signin success !',
+                                                    redirect:'/CodeConfirmation'
+                                                })
+                                            }
+                                            else
+                                            {
+                                                dispatch({ 
                                                     type: 'OPEN_MODAL',
                                                     dimmer: 'blurring', 
                                                     message:loginResult.message,
                                                     title:'Signin success !',
                                                     redirect:'/'
                                                 })
+                                            }
+
                                         }
                                     }}
                                     />
