@@ -15,6 +15,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.hashers import make_password, check_password
 import random
+import requests
 
 #from django.contrib.auth.models import user
 # Create your views here.
@@ -73,6 +74,7 @@ class LoginUser(APIView):
                 return Response({'success':'Login granted for user.'})
             else:
                 request.session['email']=_user.email
+                user.objects.filter(email=_user.email).update(verificationcode=str(random.randrange(100000,999999)))
                 return Response({'alert':'User is not verified.'})
         else:
             return Response({'error':'username, email or password mismatch.'})
