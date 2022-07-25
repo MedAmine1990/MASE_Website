@@ -2,5 +2,6 @@ import React, {useState} from 'react';
 
 
 export default function DigitInputReducer(state, action) { 
-    return { value: action.value }
+    return { value: action.value,
+            digit: action.digit }
 }

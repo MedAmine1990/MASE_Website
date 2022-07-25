@@ -15,14 +15,18 @@ export default function DigitInput(props)
                                         form.elements[index + 1].focus();
                                     } }
                                     onKeyPress={(event) => {
+                                            console.log(event.key)
                                             if (!/[0-9]/.test(event.key)) {
+                                                 console.log('!/[0-9]/')
                                                         event.preventDefault();
                                             }
                                             else if(digit.length>=1){
+                                                console.log(props.value)
                                                         event.preventDefault();
                                             }
                                             else
                                             {
+                                                console.log('value update')
                                                 props.value=event.key
                                             }
                                     }}

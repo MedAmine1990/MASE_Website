@@ -63,6 +63,14 @@ export default function CodeConfirmationPage()
                                                         }).then(res =>{
                                                                 if(res.data.error!=null)
                                                                 {
+                                                                    //window.location.reload(false)
+                                                                    /*dispatch({ 
+                                                                                type: 'OPEN_MODAL',
+                                                                                dimmer: 'blurring', 
+                                                                                message:'testMessage',
+                                                                                title:'Signup error',
+                                                                                redirect:''
+                                                                            })*/
                                                                     console.log(res.data.error)
                                                                 }
                                                                 else
@@ -71,7 +79,7 @@ export default function CodeConfirmationPage()
                                                                 }
                                                             })
                                         console.log(confirmationCode);
-                                        dispatchDigit({ value: '' });
+                                        dispatchDigit({ value: '', digit:'' });
                                 }}
                         />
                         <Button 
@@ -81,7 +89,7 @@ export default function CodeConfirmationPage()
                                 icon='mail'
                                 style={{width:'200px', marginTop:'15px'}} 
                                 onClick={async ()=>{
-                                        dispatchDigit({ value: '' });
+                                        dispatchDigit({ value: '', digit:'' });
                                         await axios.get('usermanagement/resendverifyemail')
                                         .then(res =>{
                                             if(res.data.error!=null)
