@@ -20,7 +20,7 @@ export default function DigitInput(props)
                                                  console.log('!/[0-9]/')
                                                         event.preventDefault();
                                             }
-                                            else if(digit.length>=1){
+                                            else if(digit.length>=1 && props.isReset == false){
                                                 console.log(props.value)
                                                         event.preventDefault();
                                             }
@@ -28,6 +28,11 @@ export default function DigitInput(props)
                                             {
                                                 console.log('value update')
                                                 props.value=event.key
+                                                setdigit(props.value);
+                                                if (props.isReset == true)
+                                                {
+                                                    props.isReset=false
+                                                }
                                             }
                                     }}
                                     size='huge'

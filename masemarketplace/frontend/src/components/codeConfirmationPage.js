@@ -16,7 +16,8 @@ export default function CodeConfirmationPage()
 {
     const [password, setPassword] = useState('')
     const [stateDigit, dispatchDigit]=React.useReducer(DigitInputReducer,{
-        value:''
+        value:'',
+        isReset: false
     })
     const [state, dispatch] = React.useReducer(exampleReducer, {
     open: false,
@@ -25,7 +26,7 @@ export default function CodeConfirmationPage()
     title:'',
     redirect:''
     })
-    const {value} = stateDigit
+    const {value, isReset} = stateDigit
     const { open, dimmer, message, title, redirect} = state
     return (
         <div style={{display: 'flex',  justifyContent:'center', alignItems:'center',backgroundColor:"#5544D4", height:"100vh"}}>
@@ -45,12 +46,12 @@ export default function CodeConfirmationPage()
                     </Message>
                     <Form size='large'>
                         <Segment stacked>
-                        <DigitInput value={value} />
-                        <DigitInput value={value} />
-                        <DigitInput value={value} />
-                        <DigitInput value={value} />
-                        <DigitInput value={value} />
-                        <DigitInput value={value} />
+                        <DigitInput value={value} isReset={isReset} />
+                        <DigitInput value={value} isReset={isReset} />
+                        <DigitInput value={value} isReset={isReset} />
+                        <DigitInput value={value} isReset={isReset} />
+                        <DigitInput value={value} isReset={isReset} />
+                        <DigitInput value={value} isReset={isReset} />
                         <Button color="violet" 
                             style={{ color:"#ffffff", marginTop:'15px', width:'200px' }}  
                             size='large' 
@@ -79,7 +80,7 @@ export default function CodeConfirmationPage()
                                                                 }
                                                             })
                                         console.log(confirmationCode);
-                                        dispatchDigit({ value: '', digit:'' });
+                                        dispatchDigit({ value: '', isReset:true });
                                 }}
                         />
                         <Button 
@@ -89,7 +90,7 @@ export default function CodeConfirmationPage()
                                 icon='mail'
                                 style={{width:'200px', marginTop:'15px'}} 
                                 onClick={async ()=>{
-                                        dispatchDigit({ value: '', digit:'' });
+                                        dispatchDigit({ value: '', isReset:true });
                                         await axios.get('usermanagement/resendverifyemail')
                                         .then(res =>{
                                             if(res.data.error!=null)
