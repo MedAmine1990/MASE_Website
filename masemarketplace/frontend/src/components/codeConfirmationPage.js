@@ -1,5 +1,5 @@
 //test
-import React, {useState} from 'react'
+import React, {useEffect,useState} from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment, Modal, Icon } from 'semantic-ui-react'
 import axios from 'axios';
 
@@ -11,6 +11,15 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import DigitInput from './digitInput.js'
 import DigitInputReducer from './digitInputReducer.js'
 
+async function checkUserEmail()
+
+{
+    var result= false
+    await axios.get('usermanagement/getsessionemail').then(res =>{
+                                                        result = true;
+                                                        })
+    return result;
+}
 
 export default function CodeConfirmationPage()
 {
@@ -19,6 +28,7 @@ export default function CodeConfirmationPage()
         value:'',
         isReset: false
     })
+    const [emailExists, setEmailExists] = useState();
     const [state, dispatch] = React.useReducer(exampleReducer, {
     open: false,
     dimmer: undefined,
@@ -28,8 +38,19 @@ export default function CodeConfirmationPage()
     })
     const {value, isReset} = stateDigit
     const { open, dimmer, message, title, redirect} = state
+    
+    const emailexists = async () => {
+        var result= await checkUserEmail()
+        setEmailExists(result)
+    }
+    useEffect(() => {
+        emailexists();
+    }, []);
+    console.log(emailExists)
+    
+    
     return (
-        <div style={{display: 'flex',  justifyContent:'center', alignItems:'center',backgroundColor:"#5544D4", height:"100vh"}}>
+         <div style={{display: 'flex',  justifyContent:'center', alignItems:'center',backgroundColor:"#5544D4", height:"100vh"}}>
             <ModalComponent  
                 dimmer={dimmer}
                 open={open}
@@ -38,13 +59,13 @@ export default function CodeConfirmationPage()
                 redirect={redirect}>
             </ModalComponent>
             
-            <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+            { emailExists == true && <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
                 <Grid.Column style={{ maxWidth: 450 }}>
                 <Image src={myImage} size='medium' style={{margin:"auto"}}  />
                     <Message>
                         Verify your identity with the code received in your email.
                     </Message>
-                    <Form size='large'>
+                    <Form size='large' autoComplete="off">
                         <Segment stacked>
                         <DigitInput value={value} isReset={isReset} />
                         <DigitInput value={value} isReset={isReset} />
@@ -65,21 +86,28 @@ export default function CodeConfirmationPage()
                                                                 if(res.data.error!=null)
                                                                 {
                                                                     //window.location.reload(false)
-                                                                    /*dispatch({ 
+                                                                    dispatch({ 
                                                                                 type: 'OPEN_MODAL',
                                                                                 dimmer: 'blurring', 
-                                                                                message:'testMessage',
-                                                                                title:'Signup error',
+                                                                                message:'Confirmation code mismatch. Make sure to input the code you received in your email.',
+                                                                                title:'Email verification error',
                                                                                 redirect:''
-                                                                            })*/
+                                                                            })
                                                                     console.log(res.data.error)
                                                                 }
                                                                 else
                                                                 {
-                                                                    console.log('code verified')
+                                                                    //console.log('code verified')
+                                                                     dispatch({ 
+                                                                                type: 'OPEN_MODAL',
+                                                                                dimmer: 'blurring', 
+                                                                                message:'Congrats ! You can now join the community of MASE simracing labs.',
+                                                                                title:'Email verification success',
+                                                                                redirect:'/'
+                                                                            })
                                                                 }
                                                             })
-                                        console.log(confirmationCode);
+                                        //console.log(confirmationCode);
                                         dispatchDigit({ value: '', isReset:true });
                                 }}
                         />
@@ -95,11 +123,11 @@ export default function CodeConfirmationPage()
                                         .then(res =>{
                                             if(res.data.error!=null)
                                                 {
-                                                    console.log(res.data.error)
+                                                    //console.log(res.data.error)
                                                 }
                                                 else
                                                 {
-                                                    console.log('confirmation code reset')
+                                                    //console.log('confirmation code reset')
                                                 }
                                         })
                                 }}>
@@ -107,7 +135,7 @@ export default function CodeConfirmationPage()
                         </Segment>
                     </Form>
                 </Grid.Column>
-            </Grid>
+            </Grid> }
         </div>
         )
 }

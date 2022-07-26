@@ -79,7 +79,7 @@ class LoginUser(APIView):
         else:
             return Response({'error':'username, email or password mismatch.'})
 
-class getSessionCookies(APIView):
+class getSessionCookie(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request, format=None):
         if 'username' in request.session:
@@ -95,7 +95,15 @@ class getSessionCookies(APIView):
             Response ({
                 'error':'Could not get session data.'
                 })
-        
+
+class getSessionEmail(APIView):
+        def get(self, request, format=None):
+            try:
+                return Response({
+                    'email':request.session['email']
+                })
+            except Exception as e:
+                return Response({'error':'API call error happened.'})
 
 
 class ggLoginUser(APIView):
@@ -109,6 +117,7 @@ class ggLoginUser(APIView):
                 _user=user.objects.get(username=useremail)
                 response=jwt_login(_user,'GoogleAuth')
                 request.session['username']=_user.username
+                request.session['email']=_user.useremail
                 request.session['access_token']=response['access']
                 request.session['refresh']=response['refresh']
                 return Response({'success':'user email exisits. Login granted.'})
