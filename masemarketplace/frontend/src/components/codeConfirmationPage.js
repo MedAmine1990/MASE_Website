@@ -16,7 +16,8 @@ async function checkUserEmail()
 {
     var result= false
     await axios.get('usermanagement/getsessionemail').then(res =>{
-                                                        result = true;
+                                                        if(res.data.email!=null)
+                                                            result = true;
                                                         })
     return result;
 }
@@ -134,6 +135,13 @@ export default function CodeConfirmationPage()
                                 </Button> 
                         </Segment>
                     </Form>
+                </Grid.Column>
+            </Grid> }
+            { emailExists == false && <Grid textAlign='left' style={{ height: '100vh' }} verticalAlign='middle'>
+                <Grid.Column style={{ maxWidth: 450 }}>
+                        <Header as='h1' style={{color:"#ffffff", fontSize:"100px"}}>503</Header>
+                        <Header as='h2' style={{color:"#ffffff"}}>Page unavailable</Header>
+                        <Header as='h4' style={{color:"#ffffff"}}>The page you are trying to acces cannot be accessed unless you are logged in !</Header>
                 </Grid.Column>
             </Grid> }
         </div>
