@@ -1,5 +1,6 @@
 //test
-import React, {useState} from 'react'
+import React, {useEffect,useState} from 'react'
+import {useNavigate} from "react-router-dom"
 import { Button, Form, Grid, Header, Image, Message, Segment, Modal } from 'semantic-ui-react'
 import axios from 'axios';
 
@@ -43,8 +44,21 @@ async function loginStandard(values)
     return data;
 }
 
+async function checkUserEmail()
+{
+    var result= false
+    await axios.get('usermanagement/getsessionemail').then(res =>{
+                                                        if(res.data.email!=null)
+                                                            result = true;
+                                                        })
+    return result;
+}
+
+
 export default function SigninPage()
 {
+    let navigate = useNavigate();
+    const [emailExists, setEmailExists] = useState();
     const [useremailorname, setUseremailorname] = useState('')
     const [password, setPassword] = useState('')
 
@@ -56,6 +70,19 @@ export default function SigninPage()
     redirect:''
     })
     const { open, dimmer, message, title, redirect} = state
+    
+    const emailexists = async () => {
+        var result= await checkUserEmail()
+        setEmailExists(result)
+    }
+    useEffect(() => {
+        emailexists();
+    }, []);
+    console.log(emailExists)
+    if(emailExists)
+    {
+        navigate('/CodeConfirmation')
+    }
     return (
         <div style={{display: 'flex',  justifyContent:'center', alignItems:'center',backgroundColor:"#5544D4", height:"100vh"}}>
             <ModalComponent  

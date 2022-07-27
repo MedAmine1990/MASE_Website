@@ -139,7 +139,7 @@ export default function CodeConfirmationPage()
             </Grid> }
             { emailExists == false && <Grid textAlign='left' style={{ height: '100vh' }} verticalAlign='middle'>
                 <Grid.Column style={{ maxWidth: 450 }}>
-                        <Header as='h1' style={{color:"#ffffff", fontSize:"100px"}}>503</Header>
+                        <Header as='h1' style={{color:"#ffffff", fontSize:"100px"}}>Oops!</Header>
                         <Header as='h2' style={{color:"#ffffff"}}>Page unavailable</Header>
                         <Header as='h4' style={{color:"#ffffff"}}>The page you are trying to acces cannot be accessed unless you are logged in !</Header>
                 </Grid.Column>
