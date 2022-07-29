@@ -50,7 +50,36 @@ async function checkUserEmail()
     await axios.get('usermanagement/getsessionemail').then(res =>{
                                                         if(res.data.email!=null)
                                                             result = true;
+                                                        else
+                                                            result=false;
                                                         })
+    return result;
+}
+
+async function getSessionEmail()
+{
+    var result= ""
+    await axios.get('usermanagement/getsessionemail').then(res =>{
+                                                        if(res.data.email!=null)
+                                                            result = res.data.email;
+                                                        else
+                                                            result="";
+                                                        })
+    return result;
+}
+
+async function checkUserVerified(_email)
+{
+    var result= false
+    var _email= await getSessionEmail();
+    await axios.post('usermanagement/checkuserverified', {
+        email:_email
+    }).then(res =>{
+                        if(res.data.userverified!=null)
+                            result = res.data.userverified;
+                        else
+                            result = false;
+                    })
     return result;
 }
 
@@ -58,7 +87,7 @@ async function checkUserEmail()
 export default function SigninPage()
 {
     let navigate = useNavigate();
-    const [emailExists, setEmailExists] = useState();
+    const [userVerified, setUserVerified] = useState();
     const [useremailorname, setUseremailorname] = useState('')
     const [password, setPassword] = useState('')
 
@@ -71,15 +100,15 @@ export default function SigninPage()
     })
     const { open, dimmer, message, title, redirect} = state
     
-    const emailexists = async () => {
-        var result= await checkUserEmail()
-        setEmailExists(result)
+    const userverified = async () => {
+        var result= await checkUserVerified()
+        setUserVerified(result)
     }
     useEffect(() => {
-        emailexists();
+        userverified();
     }, []);
-    console.log(emailExists)
-    if(emailExists)
+    console.log(userverified)
+    if(userverified)
     {
         navigate('/CodeConfirmation')
     }

@@ -147,6 +147,19 @@ class verifyUserEmail(APIView):
         except Exception as e:
             return Response({'error': str(e)})
 
+class checkUserVerified(APIView):
+    def post(self, request, format=None):
+        try:
+            _email=request.data['email']
+            checkuser=user.objects.filter(email=_email)
+            if checkuser.exists():
+                _user=user.objects.get(email=_email)
+                return Response({'userverified':_user.verified})
+            else
+                return Response({'error':'User does not exist.'})
+        except Exception as e:
+            return Response({'error': str(e)})
+
 class resendEmailConfirmationCode(APIView):
     def get(self, request, format=None):
         try:

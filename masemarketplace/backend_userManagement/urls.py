@@ -13,5 +13,6 @@ urlpatterns = [
     path('logout',logoutUser.as_view()),
     path('verifyemail',verifyUserEmail.as_view()),
     path('resendverifyemail',resendEmailConfirmationCode.as_view()),
-    path('getsessionemail',getSessionEmail.as_view())
+    path('getsessionemail',getSessionEmail.as_view()),
+    path('checkuserverified',checkUserVerified.as_view())
 ]
