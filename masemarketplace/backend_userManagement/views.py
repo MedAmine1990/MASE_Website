@@ -155,7 +155,7 @@ class checkUserVerified(APIView):
             if checkuser.exists():
                 _user=user.objects.get(email=_email)
                 return Response({'userverified':_user.verified})
-            else
+            else:
                 return Response({'error':'User does not exist.'})
         except Exception as e:
             return Response({'error': str(e)})
