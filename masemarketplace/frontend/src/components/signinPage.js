@@ -68,7 +68,7 @@ async function getSessionEmail()
     return result;
 }
 
-async function checkUserVerified(_email)
+async function checkUserVerified()
 {
     var result= false
     var _email= await getSessionEmail();
@@ -107,8 +107,8 @@ export default function SigninPage()
     useEffect(() => {
         userverified();
     }, []);
-    console.log(userverified)
-    if(userverified)
+    console.log(userVerified)
+    if(!userVerified)
     {
         navigate('/CodeConfirmation')
     }
