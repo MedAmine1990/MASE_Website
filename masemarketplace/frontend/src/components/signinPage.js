@@ -44,6 +44,28 @@ async function loginStandard(values)
     return data;
 }
 
+async function checkSessionToken
+{
+    isTokenValid=false
+    await axios.get('usermanagement/getaccesstoken').then(res => {
+        if(res.data.access_token!=null)
+        {
+            accessToken=res.data.access_token
+            const config = {
+                headers: { Authorization: 'Bearer '+accessToken }
+            };
+            axios.get('usermanagement/testaccesstoken',config).then(res => {
+                if (res.data.success!=null)
+                {
+                    isTokenValid = true
+                }
+            })
+        }
+    })
+    return isTokenValid
+}
+
+
 async function checkUserEmail()
 {
     var result= false

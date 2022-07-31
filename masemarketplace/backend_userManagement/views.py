@@ -80,7 +80,6 @@ class LoginUser(APIView):
             return Response({'error':'username, email or password mismatch.'})
 
 class getSessionCookie(APIView):
-    permission_classes = (IsAuthenticated,)
     def get(self, request, format=None):
         if 'username' in request.session:
             username=request.session['username']
@@ -92,7 +91,7 @@ class getSessionCookie(APIView):
                 'refresh':refresh
                 })
         else:
-            Response ({
+            return Response ({
                 'error':'Could not get session data.'
                 })
 
@@ -159,6 +158,26 @@ class checkUserVerified(APIView):
                 return Response({'error':'User does not exist.'})
         except Exception as e:
             return Response({'error': str(e)})
+
+class getAccessToken(APIView):
+    def get(self, request, format=None):
+        print(request.session['username'])
+        try:
+            return Response({
+                    'access_token':request.session['access_token'],
+                    'refresh_token':request.session['refresh']
+                }) 
+        except Exception as e:
+            return Response({'error':str(e)})
+
+class testAccessToken(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, format=None):
+        try:
+            return Response({'success':'permission granted for the used access token.'})
+        except:
+            return Response({'error':'API call error happened.'})
+
 
 class resendEmailConfirmationCode(APIView):
     def get(self, request, format=None):
