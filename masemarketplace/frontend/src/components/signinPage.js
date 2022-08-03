@@ -114,9 +114,9 @@ async function checkUserVerified()
                                 else
                                     result = false;
                             })
-            return result;
+           
     }
-    
+    return result;
 }
 
 
