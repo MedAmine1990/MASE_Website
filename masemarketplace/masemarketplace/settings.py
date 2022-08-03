@@ -130,6 +130,7 @@ TEMPLATES = [
 
 #session engine setting
 SESSION_ENGINE='django.contrib.sessions.backends.signed_cookies'
+SESSION_COOKIE_HTTPONLY=False
 # JWT settings
 JWT_EXPIRATION_DELTA_DEFAULT = 2.628e+6  # 1 month in seconds
 JWT_AUTH = {
