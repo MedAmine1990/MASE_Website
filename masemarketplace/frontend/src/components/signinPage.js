@@ -47,29 +47,10 @@ async function loginStandard(values)
 async function checkSessionToken()
 {
     var isTokenValid=false
-    await axios.get('usermanagement/getaccesstoken').then(res => {
-        if(res.data.access_token!=null)
+    await axios.get('usermanagement/testaccesstoken').then(res => {
+        if(res.data.result.detail==null)
         {
-            console.log('in res.data.access_token')
-            var accessToken=res.data.access_token
-            const config = {
-                headers: { Authorization: 'Bearer '+accessToken }
-            };
-            axios.get('usermanagement/testaccesstoken',config).then(res => {
-                if (res.data.success!=null)
-                {
-                    console.log('in res.data.success')
-                    isTokenValid = true
-                }
-                else
-                {
-                    console.log(res.data)
-                }
-            })
-        }
-        else
-        {
-            console.log(res.data)
+           isTokenValid=true
         }
     })
     return isTokenValid
@@ -113,8 +94,7 @@ async function checkUserVerified()
                                     result = res.data.userverified;
                                 else
                                     result = false;
-                            })
-           
+                            })    
     }
     return result;
 }

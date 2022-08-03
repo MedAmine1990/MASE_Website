@@ -4,7 +4,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 def jwt_login(_user,method):
     response={}
-    print('in jwt_login')
     if method=='ManualInput':
         response=requests.post(
             settings.TOKEN_URL,
@@ -13,9 +12,26 @@ def jwt_login(_user,method):
         )
         return response.json()
     elif method=='GoogleAuth':
-        print('in GoogleAuth')
         token = RefreshToken.for_user(_user)
         response['access']=str(token.access_token)
         response['refresh']=str(token)
-        print(response['access'])
         return response
+
+def jwt_refresh(refresh_token):
+    response={}
+    response=requests.post(
+            settings.REFRESH_TOKEN_URL,
+            data={"refresh":refresh_token}
+        )
+    return response.json()
+
+def jwt_verify(token):
+    response={}
+    response=requests.post(
+            settings.VERIFY_TOKEN_URL,
+            data={"token":token}
+        )
+    return response.json()
+
+
+

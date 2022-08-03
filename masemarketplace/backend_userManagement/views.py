@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import JsonResponse
 from .models import user
-from .loginjwtservice import jwt_login
+from .loginjwtservice import *
 from django.shortcuts import redirect
 from django.conf import settings
 from django.contrib.auth import get_user_model, logout
@@ -159,22 +159,11 @@ class checkUserVerified(APIView):
         except Exception as e:
             return Response({'error': str(e)})
 
-class getAccessToken(APIView):
-    def get(self, request, format=None):
-        print(request.session['username'])
-        try:
-            return Response({
-                    'access_token':request.session['access_token'],
-                    'refresh_token':request.session['refresh']
-                }) 
-        except Exception as e:
-            return Response({'error':str(e)})
-
 class testAccessToken(APIView):
-    permission_classes = (IsAuthenticated,)
     def get(self, request, format=None):
         try:
-            return Response({'success':'permission granted for the used access token.'})
+            response=jwt_verify(request.session['access_token'])
+            return Response({'result':response})
         except:
             return Response({'error':'API call error happened.'})
 

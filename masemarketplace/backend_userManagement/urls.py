@@ -15,6 +15,5 @@ urlpatterns = [
     path('resendverifyemail',resendEmailConfirmationCode.as_view()),
     path('getsessionemail',getSessionEmail.as_view()),
     path('checkuserverified',checkUserVerified.as_view()),
-    path('getaccesstoken',getAccessToken.as_view()),
     path('testaccesstoken',testAccessToken.as_view())
 ]

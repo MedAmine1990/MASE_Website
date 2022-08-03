@@ -46,6 +46,7 @@ BASE_FRONTEND_URL = env.str('DJANGO_BASE_FRONTEND_URL', default='http://localhos
 #JWT token URL
 TOKEN_URL=env.str('DJANGO_TOKEN_URL')
 REFRESH_TOKEN_URL=env.str('DJANGO_REFRESH_TOKEN_URL')
+VERIFY_TOKEN_URL=env.str('DJANGO_VERIFY_TOKEN_URL')
 #SimpleJWT token settings
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
