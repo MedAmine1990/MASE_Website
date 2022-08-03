@@ -104,15 +104,19 @@ async function checkUserVerified()
 {
     var result= false
     var _email= await getSessionEmail();
-    await axios.post('usermanagement/checkuserverified', {
-        email:_email
-    }).then(res =>{
-                        if(res.data.userverified!=null)
-                            result = res.data.userverified;
-                        else
-                            result = false;
-                    })
-    return result;
+    if (_email!="")
+    {
+        await axios.post('usermanagement/checkuserverified', {
+                email:_email
+            }).then(res =>{
+                                if(res.data.userverified!=null)
+                                    result = res.data.userverified;
+                                else
+                                    result = false;
+                            })
+            return result;
+    }
+    
 }
 
 
