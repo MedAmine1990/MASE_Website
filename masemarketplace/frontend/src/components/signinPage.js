@@ -104,6 +104,7 @@ export default function SigninPage()
 {
     let navigate = useNavigate();
     const [userVerified, setUserVerified] = useState();
+    const [tokenVerified, setTokenVerified] = useState();
     const [useremailorname, setUseremailorname] = useState('')
     const [password, setPassword] = useState('')
 
@@ -116,7 +117,19 @@ export default function SigninPage()
     })
     checkSessionToken()
     const { open, dimmer, message, title, redirect} = state
-    
+
+    ///////////////Check if token is valid//////////////////
+    const tokenverified = async () => {
+        var result = await checkSessionToken()
+        setTokenVerified(result)
+    }
+    useEffect(() => {
+        tokenverified();
+    }, 
+    []);
+    ////////////////////////////////////////////////////////
+
+    ///////////////Check if user is verified////////////////
     const userverified = async () => {
         var result= await checkUserVerified()
         setUserVerified(result)
@@ -129,6 +142,8 @@ export default function SigninPage()
     {
         navigate('/CodeConfirmation')
     }
+    ////////////////////////////////////////////////////////
+
     return (
         <div style={{display: 'flex',  justifyContent:'center', alignItems:'center',backgroundColor:"#5544D4", height:"100vh"}}>
             <ModalComponent  

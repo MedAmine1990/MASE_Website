@@ -163,6 +163,9 @@ class testAccessToken(APIView):
     def get(self, request, format=None):
         try:
             response=jwt_verify(request.session['access_token'])
+            if 'detail' in response:
+                jwt_refresh(request.session['refresh'])
+                response=jwt_verify(request.session['access_token'])
             return Response({'result':response})
         except:
             return Response({'error':'API call error happened.'})
