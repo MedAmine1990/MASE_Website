@@ -17,6 +17,13 @@ def jwt_login(_user,method):
         response['refresh']=str(token)
         return response
 
+def jwt_login_onverification(_user):
+    response={}
+    token = RefreshToken.for_user(_user)
+    response['access']=str(token.access_token)
+    response['refresh']=str(token)
+    return response
+
 def jwt_refresh(refresh_token):
     response={}
     response=requests.post(

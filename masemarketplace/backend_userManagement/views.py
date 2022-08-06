@@ -74,6 +74,7 @@ class LoginUser(APIView):
                 return Response({'success':'Login granted for user.'})
             else:
                 request.session['email']=_user.email
+                request.session['username']=_user.username
                 user.objects.filter(email=_user.email).update(verificationcode=str(random.randrange(100000,999999)))
                 return Response({'alert':'User is not verified.'})
         else:
@@ -140,6 +141,9 @@ class verifyUserEmail(APIView):
             verifycode=user.objects.filter(email=_email).filter(verificationcode=_verificationCode)
             if verifycode.exists():
                 user.objects.filter(email=_email).update(verified=True)
+                response=jwt_login_onverification(user.objects.get(email=_email))
+                request.session['access_token']=response['access']
+                request.session['refresh']=response['refresh']
                 return Response({'success': 'User email verified.'})
             else:
                 return Response({'error':'Verification code mismatch.'})
@@ -164,6 +168,7 @@ class testAccessToken(APIView):
         try:
             response=jwt_verify(request.session['access_token'])
             if 'detail' in response:
+                print('detail in response')
                 jwt_refresh(request.session['refresh'])
                 response=jwt_verify(request.session['access_token'])
             return Response({'result':response})

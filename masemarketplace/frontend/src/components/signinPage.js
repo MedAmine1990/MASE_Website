@@ -96,6 +96,7 @@ async function checkUserVerified()
                                     result = false;
                             })    
     }
+    console.log('userverified:'+result)
     return result;
 }
 
@@ -119,25 +120,28 @@ export default function SigninPage()
     const { open, dimmer, message, title, redirect} = state
 
     ///////////////Check if token is valid//////////////////
-    const tokenverified = async () => {
-        var result = await checkSessionToken()
-        setTokenVerified(result)
-    }
-    useEffect(() => {
-        tokenverified();
-    }, 
-    []);
+
+    /*if(tokenVerified)
+    {
+        navigate('/')
+    }*/
     ////////////////////////////////////////////////////////
 
-    ///////////////Check if user is verified////////////////
-    const userverified = async () => {
-        var result= await checkUserVerified()
-        setUserVerified(result)
+    ///////////////verify session details////////////////
+    const verifysessiondetails = async () => {
+        var userverified= await checkUserVerified()
+        setUserVerified(userverified)
+        var tokenverified = await checkSessionToken()
+        setTokenVerified(tokenverified)
     }
     useEffect(() => {
-        userverified();
+        verifysessiondetails();
     }, []);
+
+    console.log(tokenVerified)
     console.log(userVerified)
+
+
     if(!userVerified)
     {
         navigate('/CodeConfirmation')
