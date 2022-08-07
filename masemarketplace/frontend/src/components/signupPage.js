@@ -104,16 +104,17 @@ export default function SignupPage() {
     title:'',
     redirect:''
   })
-    const [userVerified, setUserVerified] = useState();
-    const [tokenVerified, setTokenVerified] = useState();
+    const [userVerified, setUserVerified] = useState({result:false,email:""});
+    const [tokenVerified, setTokenVerified] = useState(false);
     const [email, setEmail] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [passConfirm, setPassConfirm] = useState('')
     const { open, dimmer, message, title, redirect} = state
 ///////////////verify session details////////////////
+
 const verifysessiondetails = async () => {
-    var userverified= await checkUserVerified()
+    var userverified= await checkUserVerified()  
     setUserVerified(userverified)
     var tokenverified = await checkSessionToken()
     setTokenVerified(tokenverified)
@@ -122,15 +123,14 @@ useEffect(() => {
     verifysessiondetails();
 }, []);
 
-//console.log(tokenVerified)
+console.log(tokenVerified)
 //console.log(userVerified)
 
 if(tokenVerified)
 {
     navigate('/')
 }
-
-if(!userVerified)
+if(!userVerified.result && userVerified.email!="")
 {
     navigate('/CodeConfirmation')
 }

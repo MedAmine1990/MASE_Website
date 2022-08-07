@@ -92,8 +92,8 @@ async function checkUserVerified()
 export default function SigninPage()
 {
     let navigate = useNavigate();
-    const [userVerified, setUserVerified] = useState();
-    const [tokenVerified, setTokenVerified] = useState();
+    const [userVerified, setUserVerified] = useState({result:false,email:""});
+    const [tokenVerified, setTokenVerified] = useState(false);
     const [useremailorname, setUseremailorname] = useState('')
     const [password, setPassword] = useState('')
 
@@ -134,7 +134,7 @@ export default function SigninPage()
         navigate('/')
     }
 
-    if(!userVerified)
+    if(!userVerified.result && userVerified.email!="")
     {
         navigate('/CodeConfirmation')
     }
