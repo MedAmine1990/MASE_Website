@@ -16,6 +16,7 @@ from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.hashers import make_password, check_password
 import random
 import requests
+import time
 
 #from django.contrib.auth.models import user
 # Create your views here.
@@ -169,7 +170,8 @@ class testAccessToken(APIView):
             response=jwt_verify(request.session['access_token'])
             if 'detail' in response:
                 print('detail in response')
-                jwt_refresh(request.session['refresh'])
+                print(request.session['refresh'])
+                request.session['access_token']=jwt_refresh(request.session['refresh'])['access']
                 response=jwt_verify(request.session['access_token'])
             return Response({'result':response})
         except:

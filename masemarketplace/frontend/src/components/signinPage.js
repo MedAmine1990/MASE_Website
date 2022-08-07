@@ -3,7 +3,7 @@ import React, {useEffect,useState} from 'react'
 import {useNavigate} from "react-router-dom"
 import { Button, Form, Grid, Header, Image, Message, Segment, Modal } from 'semantic-ui-react'
 import axios from 'axios';
-
+import { checkSessionToken,getSessionEmail,checkUserVerified } from './checkUserLoggedIn';
 import myImage from '/static/images/MaseSimracingLabs.png';
 import ModalComponent from "./Modal.js";
 import exampleReducer from "./ModalReducer.js";
@@ -22,8 +22,8 @@ async function loginStandard(values)
     }).then(res =>{
         if(res.data.error!=null)
         {
-            console.log('error')
-            console.log(res.data.error)
+            //console.log('error')
+            //console.log(res.data.error)
             data.message=res.data.error
         }
         else
@@ -44,6 +44,7 @@ async function loginStandard(values)
     return data;
 }
 
+/*
 async function checkSessionToken()
 {
     var isTokenValid=false
@@ -54,19 +55,6 @@ async function checkSessionToken()
         }
     })
     return isTokenValid
-}
-
-
-async function checkUserEmail()
-{
-    var result= false
-    await axios.get('usermanagement/getsessionemail').then(res =>{
-                                                        if(res.data.email!=null)
-                                                            result = true;
-                                                        else
-                                                            result=false;
-                                                        })
-    return result;
 }
 
 async function getSessionEmail()
@@ -96,10 +84,10 @@ async function checkUserVerified()
                                     result = false;
                             })    
     }
-    console.log('userverified:'+result)
+    //console.log('userverified:'+result)
     return result;
 }
-
+*/
 
 export default function SigninPage()
 {
@@ -141,6 +129,10 @@ export default function SigninPage()
     console.log(tokenVerified)
     console.log(userVerified)
 
+    if(tokenVerified)
+    {
+        navigate('/')
+    }
 
     if(!userVerified)
     {

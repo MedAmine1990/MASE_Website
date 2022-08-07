@@ -1,5 +1,6 @@
 //test
-import React, {useState} from 'react'
+import React, {useEffect,useState} from 'react'
+import {useNavigate} from "react-router-dom"
 import { Button, Form, Grid, Header, Image, Message, Segment, Modal } from 'semantic-ui-react'
 import axios from 'axios';
 
@@ -7,6 +8,7 @@ import myImage from '/static/images/MaseSimracingLabs.png';
 import ModalComponent from "./Modal.js";
 import exampleReducer from "./ModalReducer.js";
 import Login from "./googleSignUp.js"
+import { checkSessionToken,getSessionEmail,checkUserVerified } from './checkUserLoggedIn';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 async function controlFields(values)
@@ -93,6 +95,7 @@ async function controlFields(values)
 
 
 export default function SignupPage() {
+    let navigate = useNavigate();
     const containerStyle={color:"#6567a5"}
     const [state, dispatch] = React.useReducer(exampleReducer, {
     open: false,
@@ -101,11 +104,37 @@ export default function SignupPage() {
     title:'',
     redirect:''
   })
-  const [email, setEmail] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [passConfirm, setPassConfirm] = useState('')
-  const { open, dimmer, message, title, redirect} = state
+    const [userVerified, setUserVerified] = useState();
+    const [tokenVerified, setTokenVerified] = useState();
+    const [email, setEmail] = useState('')
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [passConfirm, setPassConfirm] = useState('')
+    const { open, dimmer, message, title, redirect} = state
+///////////////verify session details////////////////
+const verifysessiondetails = async () => {
+    var userverified= await checkUserVerified()
+    setUserVerified(userverified)
+    var tokenverified = await checkSessionToken()
+    setTokenVerified(tokenverified)
+}
+useEffect(() => {
+    verifysessiondetails();
+}, []);
+
+//console.log(tokenVerified)
+//console.log(userVerified)
+
+if(tokenVerified)
+{
+    navigate('/')
+}
+
+if(!userVerified)
+{
+    navigate('/CodeConfirmation')
+}
+////////////////////////////////////////////////////////
   ////console.log(open)
   ////console.log(dimmer)
     return (
