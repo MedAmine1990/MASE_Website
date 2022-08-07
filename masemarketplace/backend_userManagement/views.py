@@ -117,7 +117,7 @@ class ggLoginUser(APIView):
                 _user=user.objects.get(username=useremail)
                 response=jwt_login(_user,'GoogleAuth')
                 request.session['username']=_user.username
-                request.session['email']=_user.useremail
+                request.session['email']=_user.email
                 request.session['access_token']=response['access']
                 request.session['refresh']=response['refresh']
                 return Response({'success':'user email exisits. Login granted.'})
