@@ -14,6 +14,7 @@ from django.shortcuts import redirect
 from django.conf import settings
 from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.hashers import make_password, check_password
+from .mailing_services import *
 import random
 import requests
 import time
@@ -35,12 +36,16 @@ class CreateUser(APIView):
         elif checkemail.exists():
             return Response({'error': 'user email already exists.'}, status=status.HTTP_200_OK)
         else:
+            _verficode=str(random.randrange(100000,999999))
             _user=user(email=useremail,
                         username=username,
                         password=  make_password(user.objects.make_random_password()) if password==None else make_password(password),
                         source=source,
-                        verificationcode=str(random.randrange(100000,999999)))
+                        verificationcode=_verficode)
             _user.save()
+            send_user_email("Account confirmation",_verficode+" is your regitration code. Your account has been created, in order to access the app confirm your email with the registration code received.",
+            settings.DEFAULT_FROM_EMAIL,
+            useremail)
             request.session['email']=_user.email
             return Response({'success': 'user registred successfully'}, status=status.HTTP_200_OK)
 
