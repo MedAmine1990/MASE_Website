@@ -167,8 +167,7 @@ export default function SigninPage()
                             type='password'
                             onChange={event => {setPassword(event.target.value); dispatch({ type: 'CLOSE_MODAL' });} }
                         />
-                        <div style={{width:'30vh'}} verticalAlign='middle' textAlign='center'>
-                            <Button color="violet" 
+                        <Button color="violet" 
                                     style={{ color:"#ffffff", marginBottom:'14px', width:'100%', marginLeft:'auto' }}  
                                     size='large' 
                                     content='Signin'
@@ -214,6 +213,8 @@ export default function SigninPage()
                             <GoogleOAuthProvider clientId="28065806720-mr4ejasfu9plel4ff1b8g423masltllb.apps.googleusercontent.com" >
                                                 <Login/>
                             </GoogleOAuthProvider>
+                        <div style={{width:'30vh'}} verticalAlign='middle' textAlign='center'>
+                            
                         </div>
                         </Segment>
                     </Form>

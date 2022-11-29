@@ -171,8 +171,7 @@ if(!userVerified.result && userVerified.email!="")
                         type='password'
                         onChange={event => {setPassConfirm(event.target.value); dispatch({ type: 'CLOSE_MODAL' });}}
                     />
-                    <div style={{width:'30vh'}} verticalAlign='middle' textAlign='center'>
-                    <Button color="violet" style={{ color:"#ffffff", marginBottom:'14px', width:'100%', marginLeft:'auto' }}  size='large'
+                    <Button color="violet" style={{ color:"#ffffff", marginBottom:'14px', width:'100%', marginLeft:'auto', marginRight:'auto' }}  size='large'
                     onClick={async () => 
                                 {
                                     var signupResult= await controlFields([email,username,password,passConfirm])
@@ -205,6 +204,8 @@ if(!userVerified.result && userVerified.email!="")
                     <GoogleOAuthProvider clientId="28065806720-mr4ejasfu9plel4ff1b8g423masltllb.apps.googleusercontent.com" >
                                         <Login/>
                     </GoogleOAuthProvider>
+                    <div style={{width:'30vh'}} verticalAlign='middle' textAlign='center'>
+                    
                     </div>
                     </Segment>
                 </Form>
