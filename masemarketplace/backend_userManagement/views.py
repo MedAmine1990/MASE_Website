@@ -36,16 +36,27 @@ class CreateUser(APIView):
         elif checkemail.exists():
             return Response({'error': 'user email already exists.'}, status=status.HTTP_200_OK)
         else:
-            _verficode=str(random.randrange(100000,999999))
-            _user=user(email=useremail,
-                        username=username,
-                        password=  make_password(user.objects.make_random_password()) if password==None else make_password(password),
-                        source=source,
-                        verificationcode=_verficode)
-            _user.save()
-            send_user_email("Account confirmation",_verficode+" is your regitration code. Your account has been created, in order to access the app confirm your email with the registration code received.",
-            settings.DEFAULT_FROM_EMAIL,
-            useremail)
+            if source == 'ManualInput':
+                _verficode=str(random.randrange(100000,999999))
+                _user=user(email=useremail,
+                            username=username,
+                            password=  make_password(user.objects.make_random_password()) if password==None else make_password(password),
+                            source=source,
+                            verificationcode=_verficode)
+                _user.save()
+                send_user_email("Account confirmation required",_verficode+" is your regitration code. Your account has been created, in order to access the app confirm your email with the registration code received.",
+                settings.DEFAULT_FROM_EMAIL,
+                useremail)
+            else:
+                _user=user(email=useremail,
+                            username=username,
+                            password=  make_password(user.objects.make_random_password()) if password==None else make_password(password),
+                            source=source,
+                            verified=True)
+                _user.save()
+                send_user_email("Welcome to MASE simracing labs","We're happy to have you onboard. Start browsing our content and get access to to awesome simracing products.",
+                settings.DEFAULT_FROM_EMAIL,
+                useremail)
             request.session['email']=_user.email
             return Response({'success': 'user registred successfully'}, status=status.HTTP_200_OK)
 
