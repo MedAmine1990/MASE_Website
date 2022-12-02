@@ -6,6 +6,7 @@ import SignupPage from "./signupPage.js";
 import SigninPage from "./signinPage.js";
 import CodeConfirmationPage from "./codeConfirmationPage.js"
 import InfoSight from "./InfoSight";
+import HomePage from "./homePage.js";
 
 
 export const App = (props) => {
@@ -17,7 +18,8 @@ export const App = (props) => {
             <Route exact path="/Signup" element={<SignupPage/>}></Route>
             <Route exact path="/Signin" element={<SigninPage/>}></Route>
             <Route exact path="/CodeConfirmation" element={<CodeConfirmationPage/>}></Route>
-            <Route exact path="/Infosight" element={<InfoSight/>}></Route>  
+            <Route exact path="/Infosight" element={<InfoSight/>}></Route>
+            <Route exact path="/HomePage" element={<HomePage/>}></Route> 
         </Routes>
     </Router>
     ) 
