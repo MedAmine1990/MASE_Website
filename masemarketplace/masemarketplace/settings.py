@@ -21,11 +21,9 @@ env = environ.Env(
     DEBUG=(int, 0)
 )
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-
 environ.Env.read_env('.env')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -46,9 +44,9 @@ BASE_BACKEND_URL = env.str('DJANGO_BASE_BACKEND_URL', default='http://localhost:
 BASE_FRONTEND_URL = env.str('DJANGO_BASE_FRONTEND_URL', default='http://localhost:3000')
 #Base token URL
 #JWT token URL
-TOKEN_URL=env.str('DJANGO_TOKEN_URL')
-REFRESH_TOKEN_URL=env.str('DJANGO_REFRESH_TOKEN_URL')
-VERIFY_TOKEN_URL=env.str('DJANGO_VERIFY_TOKEN_URL')
+TOKEN_URL=env.str('DJANGO_TOKEN_URL', default='http://localhost:8000/api/token/')
+REFRESH_TOKEN_URL=env.str('DJANGO_REFRESH_TOKEN_URL' , default='http://localhost:8000/api/token/refresh/')
+VERIFY_TOKEN_URL=env.str('DJANGO_VERIFY_TOKEN_URL' , default ='http://localhost:8000/api/token/verify/')
 #SimpleJWT token settings
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
@@ -85,8 +83,8 @@ SIMPLE_JWT = {
 #EMAIL settings
 # gmail settings
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER =  env.str('DJANGO_SERVER_EMAIL')
-EMAIL_HOST_PASSWORD = env.str('DJANGO_SERVER_EMAIL_PASSWORD')
+EMAIL_HOST_USER =  env.str('DJANGO_SERVER_EMAIL' , default ='msimracinglabs@gmail.com')
+EMAIL_HOST_PASSWORD = env.str('DJANGO_SERVER_EMAIL_PASSWORD' , default ='C7ber$old1er1990')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
@@ -234,5 +232,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-GOOGLE_OAUTH2_CLIENT_ID = env.str('DJANGO_GOOGLE_OAUTH2_CLIENT_ID')
-GOOGLE_OAUTH2_CLIENT_SECRET = env.str('DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET')
+GOOGLE_OAUTH2_CLIENT_ID = env.str('DJANGO_GOOGLE_OAUTH2_CLIENT_ID', default='')
+GOOGLE_OAUTH2_CLIENT_SECRET = env.str('DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET', default='')
