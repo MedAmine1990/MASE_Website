@@ -41,7 +41,7 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
 #Base backend URL
 BASE_BACKEND_URL = env.str('DJANGO_BASE_BACKEND_URL', default='http://localhost:8000')
 #Base frontend URL
-BASE_FRONTEND_URL = env.str('DJANGO_BASE_FRONTEND_URL')
+BASE_FRONTEND_URL = env.str('DJANGO_BASE_FRONTEND_URL', , default='http://localhost:3000')
 #Base token URL
 #JWT token URL
 TOKEN_URL=env.str('DJANGO_TOKEN_URL')
