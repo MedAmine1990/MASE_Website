@@ -11,11 +11,13 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import datetime
 from datetime import timedelta
+from dotenv import load_dotenv
 import environ
 from pathlib import Path
 import os
 from django.core.management.utils import get_random_secret_key
 
+load_dotenv()
 
 env = environ.Env(
     DEBUG=(int, 0)
@@ -29,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env.str('DJANGO_SECRET_KEY', default=get_random_secret_key())
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,14 +41,14 @@ ALLOWED_HOSTS = ['*']
 SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
 
 #Base backend URL
-BASE_BACKEND_URL = env.str('DJANGO_BASE_BACKEND_URL', default='http://localhost:8000')
+BASE_BACKEND_URL = os.getenv('DJANGO_BASE_BACKEND_URL')
 #Base frontend URL
-BASE_FRONTEND_URL = env.str('DJANGO_BASE_FRONTEND_URL', default='http://localhost:3000')
+BASE_FRONTEND_URL = os.getenv('DJANGO_BASE_FRONTEND_URL')
 #Base token URL
 #JWT token URL
-TOKEN_URL=env.str('DJANGO_TOKEN_URL', default='http://localhost:8000/api/token/')
-REFRESH_TOKEN_URL=env.str('DJANGO_REFRESH_TOKEN_URL' , default='http://localhost:8000/api/token/refresh/')
-VERIFY_TOKEN_URL=env.str('DJANGO_VERIFY_TOKEN_URL' , default ='http://localhost:8000/api/token/verify/')
+TOKEN_URL=os.getenv('DJANGO_TOKEN_URL')
+REFRESH_TOKEN_URL=os.getenv('DJANGO_REFRESH_TOKEN_URL')
+VERIFY_TOKEN_URL=os.getenv('DJANGO_VERIFY_TOKEN_URL')
 #SimpleJWT token settings
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
@@ -83,8 +85,8 @@ SIMPLE_JWT = {
 #EMAIL settings
 # gmail settings
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER =  env.str('DJANGO_SERVER_EMAIL' , default ='msimracinglabs@gmail.com')
-EMAIL_HOST_PASSWORD = env.str('DJANGO_SERVER_EMAIL_PASSWORD' , default ='C7ber$old1er1990')
+EMAIL_HOST_USER =  os.getenv('DJANGO_SERVER_EMAIL')
+EMAIL_HOST_PASSWORD = os.getenv('DJANGO_SERVER_EMAIL_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
@@ -232,5 +234,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-GOOGLE_OAUTH2_CLIENT_ID = env.str('DJANGO_GOOGLE_OAUTH2_CLIENT_ID', default='28065806720-mr4ejasfu9plel4ff1b8g423masltllb.apps.googleusercontent.com')
-GOOGLE_OAUTH2_CLIENT_SECRET = env.str('DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET', default='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')
+GOOGLE_OAUTH2_CLIENT_ID = os.getenv('DJANGO_GOOGLE_OAUTH2_CLIENT_ID')
+GOOGLE_OAUTH2_CLIENT_SECRET = os.getenv('DJANGO_GOOGLE_OAUTH2_CLIENT_SECRET')
