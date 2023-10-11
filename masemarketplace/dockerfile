@@ -1,0 +1,25 @@
+# pull official base image
+FROM python:3.8.0-alpine
+
+# set work directory
+WORKDIR /usr/src/masemarketplace_app
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+
+# install dependencies
+
+RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev libc-dev g++ libffi-dev libxml2 unixodbc-dev nodejs npm
+COPY masemarketplace_app/requirements.txt /usr/src/masemarketplace_app/requirements.txt
+RUN export LDFLAGS="-L/usr/local/opt/openssl/lib"
+RUN pip install -r requirements.txt
+
+# copy project
+COPY masemarketplace_app/ /usr/src/masemarketplace_app/
+EXPOSE 8000
+RUN ls -la /usr/src/masemarketplace_app/
+
+#ENTRYPOINT /usr/src/masemarketplace_app/manage.py runserver 0.0.0.0:8000
+ENTRYPOINT ["sh","/usr/src/masemarketplace_app/masemarketplace/docker-entrypoint.sh"]
