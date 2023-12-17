@@ -1,6 +1,6 @@
 import React, { Component, useState } from "react";
 import { Button, Image, Card, Icon, Container } from "semantic-ui-react";
-import ProductCardModal from "./ProductCardModal";
+import ProductCardModal from "./productCardModal";
 
 const styles = {
   container: {
@@ -11,7 +11,7 @@ const styles = {
 };
 
 function ProductCard() {
-  const [image, setImage] = React.useState("/Thumbnail.jpg");
+  const [image, setImage] = React.useState("/static/images/Thumbnail.jpg");
   const [productName, setProductName] = React.useState("Dallara IR18 - Monza");
   const [productDesc, setProductDesc] = React.useState(
     "1:31.0 Quali / 1:31.8 Race",
@@ -36,13 +36,13 @@ function ProductCard() {
                 style={{ margin: "5px", width: "120px", fontSize: "smaller" }}
                 onClick={handleOpen}
               >
-                <Image src="/setsBaseIcon.png" style={{ width: "15px" }} />
+                <Image src="/static/images/setsBaseIcon.png" style={{ width: "15px" }} />
                 Setsbase
               </Button>
               <Button
                 style={{ margin: "5px", width: "120px", fontSize: "smaller" }}
               >
-                <Image src="/popometerIcon.png" style={{ width: "15px" }} />
+                <Image src="/static/images/popometerIcon.png" style={{ width: "15px" }} />
                 Popometer
               </Button>
             </div>

@@ -9,5 +9,7 @@ urlpatterns = [
     path('Signin', index, name='Signin'),
     path('Infosight', index, name='Infosight'),
     path('CodeConfirmation', index, name='CodeConfirmation'),
-    path('HomePage', index, name='HomePage')
+    path('HomePage', index, name='HomePage'),
+    path('SetupPage', index, name='SetupPage'),
+    path('ProductCard', index, name='ProductCard')
 ]

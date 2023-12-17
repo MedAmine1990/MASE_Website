@@ -8,6 +8,7 @@ import CodeConfirmationPage from "./codeConfirmationPage.js"
 import InfoSight from "./InfoSight";
 import HomePage from "./homePage.js";
 import SetupPage from "./setupPage.js"
+import ProductCard from "./productCard.js"
 
 
 export const App = (props) => {
@@ -21,7 +22,8 @@ export const App = (props) => {
             <Route exact path="/CodeConfirmation" element={<CodeConfirmationPage/>}></Route>
             <Route exact path="/Infosight" element={<InfoSight/>}></Route>
             <Route exact path="/HomePage" element={<HomePage/>}></Route> 
-            <Route exact path="/SetupPage" element={<HomePage/>}></Route> 
+            <Route exact path="/SetupPage" element={<SetupPage/>}></Route> 
+            <Route exact path="/ProductCard" element={<ProductCard/>}></Route> 
         </Routes>
     </Router>
     ) 
