@@ -40,9 +40,7 @@ class CreateSetup(APIView):
             _carsetup.save()
             return Response({"request success": "Setup information saved."})
         except Exception as error:
-            return Response({"request error": str(error)})
-        
-
+            return Response({"request error": str(error)})       
 class UpdateSetup(APIView):
     def post(self, request, format=None):
         _car=None
@@ -85,7 +83,6 @@ class UpdateSetup(APIView):
                 return Response({"request success": "Setup information updated."})
         except Exception as error:
             return Response({"request error": str(error)})
-
 class DeleteSetup(APIView):
     def post(self, request, format=None):
         try:
@@ -99,9 +96,9 @@ class DeleteSetup(APIView):
                 return Response({"request error": "This car track combo does not exist."})
             else:
                 carsetup.objects.filter(car=_car, track=_track).delete()
+                return Response({"request success":"Car track combo deleted successfully"})
         except Exception as error:
             return Response({"request error": str(error)})
-
 class GetSetup(APIView):
     def get(self, request, format=None):
         try:
@@ -111,8 +108,9 @@ class GetSetup(APIView):
             return Response({"request error": str(error)})
         try:
             _carsetup=carsetup.objects.filter(car=_car, track=_track)
+            return Response({"carsetup": _carsetup})
+        except Exception as error:
             return Response({"request error": str(error)})
-
 class GetAllSetups(APIView):
     def get(self, request, format=None):
         try:
