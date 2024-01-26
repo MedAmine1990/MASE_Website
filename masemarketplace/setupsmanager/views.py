@@ -28,14 +28,14 @@ class CreateSetup(APIView):
         except Exception as error:
             return Response({"request error": str(error)})
         try:
-            _carsetup=carsetup(car=_car
-            track=_track
-            qualilaptime=_qualilaptime
-            racelaptime=_racelaptime
-            thumbnailName=_thumbnailName
-            interests=_interests
-            setsbaseLink=_setsbaseLink
-            popometerLink=_popometerLink
+            _carsetup=carsetup(car=_car,
+            track=_track,
+            qualilaptime=_qualilaptime,
+            racelaptime=_racelaptime,
+            thumbnailName=_thumbnailName,
+            interests=_interests,
+            setsbaseLink=_setsbaseLink,
+            popometerLink=_popometerLink,
             published=_published)
             _carsetup.save()
             return Response({"request success": "Setup information saved."})
@@ -133,6 +133,3 @@ class GetAllSetups(APIView):
             return Response({"carsetups":data})
         except Exception as error:
             print("request error:", str(error))
-
-
-

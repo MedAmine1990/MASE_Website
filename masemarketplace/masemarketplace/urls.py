@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('frontend.urls')),
     path('usermanagement/', include('backend_userManagement.urls')),
+    path('setupsmanager/', include('setupsmanager.urls')),
     path('googleauth/', include('googleAuth.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
