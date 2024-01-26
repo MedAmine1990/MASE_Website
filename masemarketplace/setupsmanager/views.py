@@ -116,7 +116,7 @@ class GetAllSetups(APIView):
         try:
             data=[]
             _carsetups=carsetup.objects.all()
-            for _carsetup in carsetups:
+            for _carsetup in _carsetups:
                 data.append({
                     "car":_carsetup.car,
                     "track":_carsetup.track,
@@ -128,6 +128,7 @@ class GetAllSetups(APIView):
                     "popometerLink":_carsetup.popometerLink,
                     "published":_carsetup.published
                 })
+            print(data)
             return Response({"carsetups":data})
         except Exception as error:
             print("request error:", str(error))
