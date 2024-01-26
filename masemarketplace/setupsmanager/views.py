@@ -28,17 +28,21 @@ class CreateSetup(APIView):
         except Exception as error:
             return Response({"request error": str(error)})
         try:
-            _carsetup=carsetup(car=_car,
-            track=_track,
-            qualilaptime=_qualilaptime,
-            racelaptime=_racelaptime,
-            thumbnailName=_thumbnailName,
-            interests=_interests,
-            setsbaseLink=_setsbaseLink,
-            popometerLink=_popometerLink,
-            published=_published)
-            _carsetup.save()
-            return Response({"request success": "Setup information saved."})
+            check_cartrack_combo=carsetup.objects.filter(car=_car, track=_track)
+            if not check_cartrack_combo:
+                _carsetup=carsetup(car=_car,
+                track=_track,
+                qualilaptime=_qualilaptime,
+                racelaptime=_racelaptime,
+                thumbnailName=_thumbnailName,
+                interests=_interests,
+                setsbaseLink=_setsbaseLink,
+                popometerLink=_popometerLink,
+                published=_published)
+                _carsetup.save()
+                return Response({"request success": "Setup information saved."})
+            else:
+                return Response({"request error": "Setup already exists"})
         except Exception as error:
             return Response({"request error": str(error)})       
 class UpdateSetup(APIView):
@@ -107,8 +111,16 @@ class GetSetup(APIView):
         except Exception as error:
             return Response({"request error": str(error)})
         try:
-            _carsetup=carsetup.objects.filter(car=_car, track=_track)
-            return Response({"carsetup": _carsetup})
+            _carsetup=carsetup.objects.get(car=_car, track=_track)
+            return Response({"car":_carsetup.car,
+                    "track":_carsetup.track,
+                    "qualilaptime":_carsetup.qualilaptime,
+                    "racelaptime":_carsetup.racelaptime,
+                    "thumbnailName":_carsetup.thumbnailName,
+                    "interests":_carsetup.interests,
+                    "setsbaseLink":_carsetup.setsbaseLink,
+                    "popometerLink":_carsetup.popometerLink,
+                    "published":_carsetup.published})
         except Exception as error:
             return Response({"request error": str(error)})
 class GetAllSetups(APIView):

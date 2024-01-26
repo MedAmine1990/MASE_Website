@@ -11,5 +11,6 @@ urlpatterns = [
     path('CodeConfirmation', index, name='CodeConfirmation'),
     path('HomePage', index, name='HomePage'),
     path('SetupPage', index, name='SetupPage'),
+    path('SetupNotes', index, name='SetupNotes'),
     path('ProductCard', index, name='ProductCard')
 ]
