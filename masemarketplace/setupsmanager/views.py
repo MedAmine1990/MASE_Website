@@ -105,14 +105,32 @@ class DeleteSetup(APIView):
 class GetSetup(APIView):
     def get(self, request, format=None):
         try:
-            continue
+            _car=request.data["car"]
+            _track=request.data["track"]
         except Exception as error:
-            print("request error:", str(error))
+            return Response({"request error": str(error)})
+        try:
+            _carsetup=carsetup.objects.filter(car=_car, track=_track)
+            return Response({"request error": str(error)})
 
 class GetAllSetups(APIView):
     def get(self, request, format=None):
         try:
-            continue
+            data=[]
+            _carsetups=carsetup.objects.all()
+            for _carsetup in carsetups:
+                data.append({
+                    "car":_carsetup.car,
+                    "track":_carsetup.track,
+                    "qualilaptime":_carsetup.qualilaptime,
+                    "racelaptime":_carsetup.racelaptime,
+                    "thumbnailName":_carsetup.thumbnailName,
+                    "interests":_carsetup.interests,
+                    "setsbaseLink":_carsetup.setsbaseLink,
+                    "popometerLink":_carsetup.popometerLink,
+                    "published":_carsetup.published
+                })
+            return Response({"carsetups":data})
         except Exception as error:
             print("request error:", str(error))
 
