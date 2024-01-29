@@ -233,5 +233,19 @@ class GetSetupNotes(APIView):
             return Response({"setupnotes":data})
             except Exception as error:
                 print("request error:", str(error))
-        
+class DeleteSetupNote(APIView):
+    def post(self, request, format=None):
+        _noteName=None
+        try:
+            _noteName=request.data["noteName"]
+        except Exception as error:
+            return Response({"request error": str(error)})
+        try:
+            check_setupNote=setupnote.objects.filter(noteName=_noteName)
+            if not check_setupNote:
+                return Response({"request error": "This setup note does not exist."})
+            else:
+                setupnote.objects.filter(noteName=_noteName).delete()
+                return Response({"request success":"Setup note deleted successfully"})
+
 
