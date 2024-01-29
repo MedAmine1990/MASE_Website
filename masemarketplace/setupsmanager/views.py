@@ -211,7 +211,27 @@ class UpdateNote(APIView):
                 return Response({"request success": "Setup note information updated."})
         except Exception as error:
             return Response({"request error": str(error)})
-class SetupNote(APIView):
+class GetSetupNotes(APIView):
     def get(self, request, format=None):
+        try:
+            _setupid=None
+        except Exception as error:
+            return Response({"request error": str(error)})
+        try:
+            _setupNotes=setupnote.objects.get(setupid=_setupid)
+            data=[]
+            for _setupNote in _setupNotes:
+                data.append({
+                    "setup":_setup,
+                    "noteName":_noteName,
+                    "trackLocation":_trackLocation,
+                    "note":_note,
+                    "thumbnailName":_thumbnailName,
+                    "videopath":_videopath,
+                    "risks":_risks
+                })
+            return Response({"setupnotes":data})
+            except Exception as error:
+                print("request error:", str(error))
         
 
