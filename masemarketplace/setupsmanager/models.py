@@ -15,7 +15,9 @@ class carsetup(models.Model):
 
 class setupnote(models.Model):
     setup=models.ForeignKey(carsetup, on_delete=models.CASCADE)
-    noteName=models.CharField(max_length=50, null= False)
+    noteName=models.CharField(max_length=50, null= False, unique= True)
+    trackLocation=models.CharField(max_length=50, null= False, default="all track")
     note=models.TextField(null= False)
-    thumbnailName=models.CharField(max_length=50)
-
+    thumbnailName=models.CharField(max_length=100, null= True)
+    videopath=models.CharField(max_length=100, null= True)
+    risks=models.TextField(null= True)

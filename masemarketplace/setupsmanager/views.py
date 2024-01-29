@@ -144,3 +144,74 @@ class GetAllSetups(APIView):
             return Response({"carsetups":data})
         except Exception as error:
             print("request error:", str(error))
+class CreateNote(APIView):
+    def post(self, request, format=None):
+        _setup=None
+        _noteName=None
+        _trackLocation=None
+        _note=None
+        _thumbnailName=None
+        _videopath=None
+        _risks=None
+        try:
+            _setup=request.data["setup"]
+            _noteName=request.data["noteName"]
+            _trackLocation=request.data["_trackLocation"]
+            _note=request.data["note"]
+            _thumbnailName=request.data["thumbnailName"]
+            _videopath=request.data["videopath"]
+            _risks=request.data["risks"]
+        except Exception as error:
+            return Response({"request error": str(error)})
+        try:
+            _setupNote=setupnote(setup=_setup,
+            noteName=_noteName,
+            trackLocation=_trackLocation
+            note=_note,
+            thumbnailName=_thumbnailName,
+            videopath=_videopath,
+            risks=_risks)
+            _setupNote.save()
+            return Response({"request success": "Setup note information saved."})
+        except Exception as error:
+            return Response({"request error": str(error)})
+class UpdateNote(APIView):
+    def post(self, request, format=None):
+         _setup=None
+        _noteName=None
+        _trackLocation=None
+        _note=None
+        _thumbnailName=None
+        _videopath=None
+        _risks=None
+        try:
+            _setup=request.data["setup"]
+            _noteName=request.data["noteName"]
+            _trackLocation=request.data["_trackLocation"]
+            _note=request.data["note"]
+            _thumbnailName=request.data["thumbnailName"]
+            _videopath=request.data["videopath"]
+            _risks=request.data["risks"]
+        except Exception as error:
+            return Response({"request error": str(error)})
+        try:
+            check_setupNote=carsetup.objects.filter(noteName=_noteName)
+            if not check_setupNote:
+                return Response({"request error": "This setup note does not exist."})
+            else:
+                setupnote.Objects.filter(noteName=_noteName).update(
+                    setup=_setup,
+                    noteName=_noteName,
+                    trackLocation=_trackLocation,
+                    note=_note,
+                    thumbnailName=_thumbnailName,
+                    videopath=_videopath,
+                    risks=_risks
+                )
+                return Response({"request success": "Setup note information updated."})
+        except Exception as error:
+            return Response({"request error": str(error)})
+class SetupNote(APIView):
+    def get(self, request, format=None):
+        
+
