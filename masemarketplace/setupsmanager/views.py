@@ -194,11 +194,11 @@ class UpdateNote(APIView):
         except Exception as error:
             return Response({"request error": str(error)})
         try:
-            check_setupNote=carsetup.objects.filter(noteName=_noteName)
+            check_setupNote=setupnote.objects.filter(noteName=_noteName)
             if not check_setupNote:
                 return Response({"request error": "This setup note does not exist."})
             else:
-                setupnote.Objects.filter(noteName=_noteName).update(
+                setupnote.objects.filter(noteName=_noteName).update(
                     setup=carsetup.objects.get(id=_setup),
                     noteName=_noteName,
                     trackLocation=_trackLocation,
@@ -217,12 +217,13 @@ class GetSetupNotes(APIView):
         except Exception as error:
             return Response({"request error": str(error)})
         try:
+            data=[]
             _setupid=request.data["setupid"]
-            _setupNotes=setupnote.objects.get(id=_setupid)
-            if len(_setupNotes)>0:
-                for _setupNote in _setupNotes:
+            _setupNotes=setupnote.objects.all()
+            for _setupNote in _setupNotes:
+                if _setupNote.setup_id==_setupid:
                     data.append({
-                        "setup":_setupNote.setup,
+                        "setup":_setupNote.setup_id,
                         "noteName":_setupNote.noteName,
                         "trackLocation":_setupNote.trackLocation,
                         "note":_setupNote.note,
@@ -230,7 +231,7 @@ class GetSetupNotes(APIView):
                         "videopath":_setupNote.videopath,
                         "risks":_setupNote.risks
                     })
-                return Response({"setupnotes":data})
+            return Response({"setupnotes":data})
         except Exception as error:
             return Response({"request error": str(error)})
 class DeleteSetupNote(APIView):
